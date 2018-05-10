@@ -4,4 +4,6 @@ data/
 ngrok
 lib*
 bin*
+selenium*
 pyvenv.cfg
+ghostdriver.log
