@@ -15,3 +15,4 @@ You will need the following things properly installed on your computer.
 
 * `git clone git@github.com:ramblingbarney/refactored-invention.git` this repository
 * `cd refactored-invention`
+* `pip install -r /path/to/requirements.txt`
