@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <!-- <meta charset="utf-8"> -->
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Portfolio Item - Start Bootstrap Template</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" type="text/css" />
+
+    <!-- pouchDB -->
+    <script src="{{url_for('static', filename='js/pouchdb-6.4.3.min.js')}}"></script>
+    <!-- pouchDB FIND -->
+    <script src="{{url_for('static', filename='js/pouchdb.find.min.js')}}"></script>
+
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}" type="text/css" />
+
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container pl-1">
+        <a class="navbar-brand" href="#">Guess the next line!</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <span class="nav-link" id="player-name">< player name ></span>
+            </li>
+            <li class="nav-item">
+              <span class="nav-link" id="total-points">0 pts</span>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('leaderboard') }}">Leaderboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('all_players') }}">Who's Playing</a>
+            </li>
+              <div class="input-group input-group-sm py-md-1 w-25">
+                <input type="text" class="form-control" placeholder="" aria-label="username login" id="login-name" aria-describedby="basic-addon2" onsubmit="event.preventDefault();">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" type="button" onclick="login(window.location.href + 'login',document.getElementById('login-name').value);" >Login</button>
+                </div>
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" type="button" onclick="logOut();" >Logout</button>
+                </div>
+              </div>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    {% block content %} {% endblock %}
+
+
+    <!-- Footer -->
+    <footer class="py-1 bg-dark">
+      <div class="container">
+        <p class="m-0 text-center text-white"><small>Copyright &copy; Guess the next line! <script>document.write(new Date().getFullYear())</script></small></p>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+      <script src="{{url_for('static', filename='vendor/jquery/jquery.min.js')}}"></script>
+      <script src="{{url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+  </body>
+
+</html>

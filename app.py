@@ -16,6 +16,15 @@ logger.addHandler(handler)
 def index():
     return render_template("index.html", page_title="Home")
 
+@app.route('/all_players')
+def all_players():
+    return render_template("all_players.html")
+
+@app.route('/leaderboard')
+def leaderboard():
+    return render_template("leaderboard.html")
+
+
 def handle_exception(exc_type, exc_value, exc_traceback):
     if issubclass(exc_type, KeyboardInterrupt):
         sys.__excepthook__(exc_type, exc_value, exc_traceback)

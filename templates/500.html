@@ -1,0 +1,10 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container">
+  <!-- Jumbotron -->
+  <div class="jumbotron">
+    <h1><span class="glyphicon glyphicon-fire red"></span>Whoops</h1>
+    <p class="lead">We had a problem, bear with us.<em><span id="display-domain"></span></em>.</p>
+    <a href="{{ url_for('index') }}">Lets try again</a>
+  </div>
+</div>
+{% endblock %}
