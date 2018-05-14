@@ -86,9 +86,267 @@
 
     <div class="col-md-8 pb-4" id="player" allowfullscreen="0">
 
-      <p>Hello world!</p>
+      <script>
 
-      
+        var db = new PouchDB('songLyrics',{auto_compaction: true});
+
+        var timeOutVar;
+        var pollCount = 0;
+        var timer; // on key up delay for answer input box
+
+        //python api musixmatch data
+        var songData = JSON.parse({{ lyrics|tojson|safe }});
+
+        // list of durations for youtube steam progress polling
+
+        var startTimesArray = [0];
+
+        var pollingIntervals = [];
+
+        // loop over times dictionary to create an intermediate array of start times
+
+        for (var p in songData[0]) {
+
+          startTimesArray.push(songData[0][p]['timeStart'])
+
+        }
+
+        // loop over the intermediate array of start times to create an array of durations between song lines
+
+        for (var i = 1; i < startTimesArray.length; i++) {
+
+          difference = startTimesArray[i] - startTimesArray[i-1];
+
+          pollingIntervals.push(difference);
+        }
+
+        // 2. This code loads the IFrame Player API code asynchronously.
+        // code marked with numbers 2 - 5 are taken from https://developers.google.com/youtube/iframe_api_reference
+         var tag = document.createElement('script');
+
+         tag.src = "https://www.youtube.com/iframe_api";
+         var firstScriptTag = document.getElementsByTagName('script')[0];
+         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+         // 3. This function creates an <iframe> (and YouTube player)
+         //    after the API code downloads.
+         var player;
+         function onYouTubeIframeAPIReady() {
+           player = new YT.Player('player', {
+             height: '390',
+             width: '640',
+             videoId: '{{ value }}',
+             events: {
+               'onReady': onPlayerReady,
+               'onStateChange': onPlayerStateChange
+             }
+           });
+         }
+
+         // 4. The API will call this function when the video player is ready and set the duration to the first polling event
+         function onPlayerReady(event) {
+
+           document.getElementById( "video-title" ).innerText = player.getVideoData().title;
+
+           // destroy DB, then create
+           db.destroy('songLyrics').then(function() {
+              db = new PouchDB('songLyrics');
+           }).then(function(){
+             addLyrics();
+           });
+
+           timeOutVar = setTimeout('timePoll()',pollingIntervals[pollCount]);
+
+         }
+
+         // 5. The API calls this function when the player's state changes.
+         //    The function indicates that when the video finishes the
+         //    'songLyrics' database is destroyed and recreated.
+
+         function onPlayerStateChange(event) {
+           if (event.data == YT.PlayerState.PLAYING) {
+
+            // clear current period for next polling
+            clearTimeout(timeOutVar);
+
+            // set next number milli seconds to next polling of YouTube API
+            timeOutVar = setTimeout('timePoll()',pollingIntervals[pollCount]);
+
+            timePoll();
+
+            // query songLyrics DB using current iteration ID
+            findLyric(songData[1][pollCount]['_id']);
+
+           }
+
+           // if the player is paused stop polling
+           if (event.data === 2){
+             clearTimeout(timeOutVar);
+           }
+
+
+           // When the video stops playing destory and create the PouchDB database and stop the polling
+           if(event.data === 0) {
+
+              // stop the polling
+              clearTimeout(timeOutVar);
+
+           }
+
+         }
+
+         function htmlDecode(input) {
+           var doc = new DOMParser().parseFromString(input, "text/html");
+           return doc.documentElement.textContent;
+         };
+
+         function timePoll() {
+
+           var sec = player.getCurrentTime(Number);
+
+           if ( sec*1000 >= pollingIntervals[pollCount] ) {
+
+             // select current lyric for video stream & score users answer
+
+             findLyric(songData[1][pollCount]['_id']);
+
+             clearTimeout(timeOutVar);
+             // stop polling and the end of the song and exit function
+             if (pollCount > pollingIntervals.length) {
+               return;
+             }
+
+            // increment pollCount by 1 for next duration
+            pollCount++;
+
+            timeOutVar = setTimeout('timePoll()',pollingIntervals[pollCount]);
+
+           } else {
+             // check the first iteration has completed before setting 1000 milli second polling to resync states
+             if (pollCount > 0 ){
+               // set duration of the wait for the next poll to 1000 milli seconds to allow for time elapsed issues due to network.
+               clearTimeout(timeOutVar);
+               timeOutVar = setTimeout('timePoll()',1000);
+             }
+           }
+
+
+         };
+
+        function addLyrics() {
+
+          db.bulkDocs(songData[1])
+            .then(
+              function () {
+                return db.createIndex({index: {fields: ['_id','lyric']}});
+
+              }).catch(console.error.bind(console));
+
+        };
+
+        function findLyric(currentID) {
+
+          db.find({
+            selector: {_id: currentID},
+            fields: ['lyric']
+          }).then(function (result) {
+            // yo, a result
+            // console.log(result.docs[0]['lyric']);
+            var decodeString = htmlDecode(result.docs[0]['lyric']);
+            var userString = document.getElementById("user-answer").value;
+
+            // compare user answer and song lyric
+            evaluateAnswer(window.location.href + 'evaluate_answer',userString,decodeString);
+
+            document.getElementById("answer-text").innerText = decodeString;
+
+          }).catch(function (err) {
+            // ouch, an error
+            console.log(err);
+          });
+
+        };
+
+        function evaluateAnswer(URL,userString,songString) {
+
+          var url = URL;
+
+          // The data we are going to send in our request
+
+          let data = {
+            lyricAnswer: songString,
+            stringToBeEvaluated: userString
+          }
+
+          // The parameters we are gonna pass to the fetch function
+
+          let fetchData = {
+              method: 'POST',
+              body: JSON.stringify(data),
+              headers: new Headers()
+          }
+
+          fetch(url,fetchData)
+            .then(
+              function(response) {
+                if (response.status !== 200) {
+                  console.log('Looks like there was a problem. Status Code: ' +
+                    response.status);
+                  return;
+                }
+
+                // Examine the text in the response
+                response.json().then(function(data) {
+                  document.getElementById( "answer-points" ).innerText = data.score + " points";
+                });
+              }
+            )
+            .catch(function(err) {
+              console.log('Fetch Error :-S', err);
+            });
+        }
+
+        function evaluateAnswer(URL,userString,songString) {
+
+          var url = URL;
+
+          // The data we are going to send in our request
+
+          let data = {
+            lyricAnswer: songString,
+            stringToBeEvaluated: userString
+          }
+
+          // The parameters we are gonna pass to the fetch function
+
+          let fetchData = {
+              method: 'POST',
+              body: JSON.stringify(data),
+              headers: new Headers()
+          }
+
+          fetch(url,fetchData)
+            .then(
+              function(response) {
+                if (response.status !== 200) {
+                  console.log('Looks like there was a problem. Status Code: ' +
+                    response.status);
+                  return;
+                }
+
+                // Examine the text in the response
+                response.json().then(function(data) {
+                  document.getElementById( "answer-points" ).innerText = data.score + " points";
+                });
+              }
+            )
+            .catch(function(err) {
+              console.log('Fetch Error :-S', err);
+            });
+        }
+
+      </script>
+
     </div>
 
     <div class="col-md-4">

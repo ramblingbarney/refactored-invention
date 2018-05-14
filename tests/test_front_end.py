@@ -47,15 +47,6 @@ class FlaskBookshelfTests(unittest.TestCase):
         # assert the status code of the response
         self.assertEqual(result.status_code, 200)
 
-    def test_home_page(self):
-        # test the rendered page contains the hello world text
-        driver = webdriver.PhantomJS(executable_path='/usr/local/bin/phantomjs', port=9134, service_args=['--ignore-ssl-errors=true', '--ssl-protocol=tlsv1'])
-        driver.get("http://localhost:5000")
-        time.sleep(3)
-        html_tag_text = driver.find_element_by_tag_name('p').text
-        assert "Hello world!" in html_tag_text
-        driver.quit
-
     def test_home_page_links(self):
         # test the rendered page contains the hello world text
         driver = webdriver.PhantomJS(executable_path='/usr/local/bin/phantomjs', port=9134, service_args=['--ignore-ssl-errors=true', '--ssl-protocol=tlsv1'])
@@ -68,4 +59,14 @@ class FlaskBookshelfTests(unittest.TestCase):
         assert "Home" in elements
         assert "Leaderboard" in elements
         assert "Who's Playing" in elements
+        driver.quit
+
+    def test_home_page_game_rendering(self):
+        # test the rendered page contains the hello world text
+        driver = webdriver.PhantomJS(executable_path='/usr/local/bin/phantomjs', port=9134, service_args=['--ignore-ssl-errors=true', '--ssl-protocol=tlsv1'])
+        driver.get("http://localhost:5000")
+        time.sleep(3)
+        html_tag_text = driver.find_element_by_id('answer-points').text
+        print(html_tag_text)
+        assert "points" in html_tag_text
         driver.quit

@@ -36,8 +36,17 @@ You will need the following things properly installed on your computer.
     * Clicking 'Leaderboard' link take you to the 'Leaderboard' page.
     * Clicking 'Who's Playing' link take you to the 'Who's Playing' page.
 
+* As a user I want to click on the video iframe and the video to start Playing
+  * Example acceptance criteria:
+    * Video Plays
+    * At timed intervals the lyrics are shown in blue text
+    * The answers are scored and the points awarded are shown below the answer.
 
 
 ## Known Issues
 
-* On small screens the login/logout text box will reduce in width so the text cannot been seen
+* On small screens the login/logout text box will reduce in width so the text cannot been seen and the logout button can be forced to the next line in some instances.
+* The API call to musixmatch fails causing the error 500 page to be shown which will fail the test as well.
+* PouchDB is not encrypted so will be accessable to all in the browser
+* Flask passes variable data to the template which is displayed in page source
+* Clicking play on the video will play in full screen on iphone mobile browser with prevents the user entering the answers
