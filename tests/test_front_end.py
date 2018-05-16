@@ -1,10 +1,11 @@
 from app import app
 import unittest
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup
 import time
 
-class FlaskBookshelfTests(unittest.TestCase):
+class FlaskGameUITests(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
@@ -48,7 +49,7 @@ class FlaskBookshelfTests(unittest.TestCase):
         self.assertEqual(result.status_code, 200)
 
     def test_home_page_links(self):
-        # test the rendered page contains the hello world text
+        # test the rendered page contains the Home, Leaderboard and Who's Playing text
         driver = webdriver.PhantomJS(executable_path='/usr/local/bin/phantomjs', port=9134, service_args=['--ignore-ssl-errors=true', '--ssl-protocol=tlsv1'])
         driver.get("http://localhost:5000")
         time.sleep(3)
@@ -62,11 +63,10 @@ class FlaskBookshelfTests(unittest.TestCase):
         driver.quit
 
     def test_home_page_game_rendering(self):
-        # test the rendered page contains the hello world text
+        # test the rendered page contains the answer points
         driver = webdriver.PhantomJS(executable_path='/usr/local/bin/phantomjs', port=9134, service_args=['--ignore-ssl-errors=true', '--ssl-protocol=tlsv1'])
         driver.get("http://localhost:5000")
         time.sleep(3)
         html_tag_text = driver.find_element_by_id('answer-points').text
-        print(html_tag_text)
         assert "points" in html_tag_text
         driver.quit

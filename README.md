@@ -27,7 +27,7 @@ You will need the following things properly installed on your computer.
 
 ### Home Page User Stories
 
-* As a user I want to see navigatin icons in the menu bar on the home page.
+* As a user I want to see navigation icons in the menu bar on the home page.
 
   * Example acceptance criteria:
     * 'Home' link on the 'Home' page
@@ -42,6 +42,12 @@ You will need the following things properly installed on your computer.
     * At timed intervals the lyrics are shown in blue text
     * The answers are scored and the points awarded are shown below the answer.
 
+## Manual Testing
+
+  * Login & Logout.
+    * Enter a username in input box and click 'Login', verify the navigation bar shows the username and points for the username
+    * Refresh the page and verify the currently logged in user is still shown in the navigation bar
+    * Click 'Logout' and verify the navigation bar no longer shows a username and points
 
 ## Known Issues
 

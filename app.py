@@ -23,6 +23,17 @@ pre_canned_videoId = ['YQHsXMglC9A','0-EF60neguk','MN3x-kAbgFU','YR5ApYxkU-U','n
 def levestein_score(to_be_scored_string, answer):
     return fuzz.ratio(to_be_scored_string, answer)
 
+def search_from_file(filename, search_term):
+    """Handle the process of writing data to a file"""
+    with open(filename, "r") as searchfile:
+        for line in searchfile:
+            if search_term in line:
+                return line.rstrip()
+
+def write_to_file(filename, data):
+    """Handle the process of writing data to a file"""
+    with open(filename, "a") as file:
+        file.writelines("{}\n".format(data))
 
 @app.route('/', methods=['GET'])
 def index():
@@ -68,6 +79,31 @@ def evaluate_answer():
             status=200,
             mimetype='application/json'
         )
+        return response
+
+@app.route('/login', methods=['POST'])
+def login():
+    if request.method == "POST":
+        data = json.loads(request.data) # load JSON data from request
+
+        result = search_from_file('data/players.txt',data['userName'])
+
+        if (result):
+
+            return_data = result.split(',')
+
+        else:
+
+            write_to_file('data/players.txt',data['userName'] + ',0')
+
+            return_data = [data['userName'],0]
+
+        response = app.response_class(
+            response=json.dumps({'user_name':return_data[0], 'total_score':return_data[1]}),
+            status=200,
+            mimetype='application/json'
+        )
+
         return response
 
 @app.route('/all_players')
