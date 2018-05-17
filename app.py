@@ -24,11 +24,29 @@ def levestein_score(to_be_scored_string, answer):
     return fuzz.ratio(to_be_scored_string, answer)
 
 def search_from_file(filename, search_term):
-    """Handle the process of writing data to a file"""
+    """Handle the process of searching for data in a file"""
     with open(filename, "r") as searchfile:
         for line in searchfile:
             if search_term in line:
                 return line.rstrip()
+
+def update_file(filename, update_term, write_value):
+    """Handle the process of updating data in a file"""
+
+    data = update_term + "," + write_value
+
+    with open(filename + ".w", "w") as outFile:
+
+
+        with open(filename, "r") as inputfile:
+            for line in inputfile:
+
+                if update_term in line:
+                    outFile.writelines("{}\n".format(data.rstrip()))
+                else:
+                    outFile.writelines("{}\n".format(line.rstrip()))
+    os.rename(filename + ".w", filename)
+
 
 def write_to_file(filename, data):
     """Handle the process of writing data to a file"""
@@ -80,6 +98,33 @@ def evaluate_answer():
             mimetype='application/json'
         )
         return response
+
+@app.route('/update_score', methods=['POST'])
+def update_score():
+    if request.method == "POST":
+        data = json.loads(request.data) # load JSON data from request
+
+        update_file('data/players.txt', data['writeData'][0], data['writeData'][1])
+
+        response = app.response_class(
+            status=200,
+            mimetype='application/json'
+        )
+        return response
+
+@app.route('/song_score', methods=['POST'])
+def song_total_score():
+    if request.method == "POST":
+        data = json.loads(request.data) # load JSON data from request
+
+        write_to_file('data/song_scores.txt',data['writeData']);
+
+        response = app.response_class(
+            status=200,
+            mimetype='application/json'
+        )
+        return response
+
 
 @app.route('/login', methods=['POST'])
 def login():

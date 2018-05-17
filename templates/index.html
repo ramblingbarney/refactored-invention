@@ -93,6 +93,9 @@
         var timeOutVar;
         var pollCount = 0;
         var timer; // on key up delay for answer input box
+        var songName; // Name of Song Playing
+        var songPointsTotal; // Total Song Points
+
 
         //python api musixmatch data
         var songData = JSON.parse({{ lyrics|tojson|safe }});
@@ -130,7 +133,7 @@
           if (getCookie('user_name')) {
 
             document.getElementById( "player-name" ).innerText = getCookie('user_name');
-            document.getElementById( "total-points" ).innerText = getCookie('total_score') + " pts";
+            document.getElementById( "total-points" ).innerText = getCookie('total_score');
 
           }
 
@@ -181,6 +184,7 @@
          function onPlayerReady(event) {
 
            document.getElementById( "video-title" ).innerText = player.getVideoData().title;
+           songName = player.getVideoData().title;
 
            // destroy DB, then create
            db.destroy('songLyrics').then(function() {
@@ -219,11 +223,18 @@
            }
 
 
-           // When the video stops playing destory and create the PouchDB database and stop the polling
+           // When the video stops playing stop the polling
            if(event.data === 0) {
 
               // stop the polling
               clearTimeout(timeOutVar);
+
+              // Write out data to file if we have a logged in user
+              if (getCookie('user_name')) {
+                // write out the user, song name, and song points
+                writeOutDataToFile('/song_score',getCookie('user_name') + "," + songName + "," + songPointsTotal);
+              }
+
 
            }
 
@@ -331,7 +342,24 @@
 
                 // Examine the text in the response
                 response.json().then(function(data) {
+
+                  // Update the points for the individual answer
                   document.getElementById( "answer-points" ).innerText = data.score + " points";
+
+                  // Create a running total for the song
+                  songPointsTotal = Number(document.getElementById( "song-points" ).innerText) + Number(data.score);
+
+                  // Update the screen to show the running total for the song
+                  document.getElementById( "song-points" ).innerText = songPointsTotal;
+
+                  if (getCookie('user_name')){
+                    if (data.score > 0) {
+                      var latestUserTotal = Number(document.getElementById( "total-points" ).innerText) + Number(data.score);
+                      setCookie('total_score', latestUserTotal);
+                      document.getElementById( "total-points" ).innerText = latestUserTotal;
+                    }
+                  }
+
                 });
               }
             )
@@ -340,44 +368,6 @@
             });
         }
 
-        function evaluateAnswer(URL,userString,songString) {
-
-          var url = URL;
-
-          // The data we are going to send in our request
-
-          let data = {
-            lyricAnswer: songString,
-            stringToBeEvaluated: userString
-          }
-
-          // The parameters we are gonna pass to the fetch function
-
-          let fetchData = {
-              method: 'POST',
-              body: JSON.stringify(data),
-              headers: new Headers()
-          }
-
-          fetch(url,fetchData)
-            .then(
-              function(response) {
-                if (response.status !== 200) {
-                  console.log('Looks like there was a problem. Status Code: ' +
-                    response.status);
-                  return;
-                }
-
-                // Examine the text in the response
-                response.json().then(function(data) {
-                  document.getElementById( "answer-points" ).innerText = data.score + " points";
-                });
-              }
-            )
-            .catch(function(err) {
-              console.log('Fetch Error :-S', err);
-            });
-        }
 
         function login(URL,inputName) {
 
@@ -415,7 +405,7 @@
                     setCookie('total_score', data.total_score);
 
                     document.getElementById( "player-name" ).innerText = getCookie('user_name');
-                    document.getElementById( "total-points" ).innerText = getCookie('total_score') + " pts";
+                    document.getElementById( "total-points" ).innerText = getCookie('total_score');
                     document.getElementById( "login-name" ).value = "";
 
 
@@ -433,6 +423,7 @@
 
         function logOut() {
 
+          writeOutDataToFile('/update_score',[getCookie('user_name'),getCookie('total_score')])
           deleteCookie('user_name');
           deleteCookie('total_score');
           document.getElementById( "player-name" ).innerText = "";
@@ -441,9 +432,39 @@
 
         }
 
+        function writeOutDataToFile(URL,writeData) {
 
+          var url = URL;
 
+          // The data we are going to send in our request
 
+          let data = {
+            writeData: writeData
+          }
+
+          // The parameters we are gonna pass to the fetch function
+
+          let fetchData = {
+              method: 'POST',
+              body: JSON.stringify(data),
+              headers: new Headers()
+          }
+
+          fetch(url,fetchData)
+            .then(
+              function(response) {
+                if (response.status !== 200) {
+                  console.log('Looks like there was a problem. Status Code: ' +
+                    response.status);
+                  return;
+                }
+
+              }
+            )
+            .catch(function(err) {
+              console.log('Fetch Error :-S', err);
+            });
+        }
 
       </script>
 
@@ -464,6 +485,7 @@
       <ul>
         <li>Answer: <span id="answer-text"></span></li>
         <li id="answer-points">0 points</li>
+        <li>Total Song Points: <span id="song-points">0</span></li>
       </ul>
     </div>
   </div>
