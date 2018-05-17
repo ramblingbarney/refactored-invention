@@ -45,9 +45,14 @@ You will need the following things properly installed on your computer.
 ## Manual Testing
 
   * Login & Logout.
-    * Enter a username in input box and click 'Login', verify the navigation bar shows the username and points for the username
-    * Refresh the page and verify the currently logged in user is still shown in the navigation bar
-    * Click 'Logout' and verify the navigation bar no longer shows a username and points
+    * Enter a username in input box and click 'Login', verify the navigation bar shows the username and points for the username.
+    * Refresh the page and verify the currently logged in user is still shown in the navigation bar.
+    * Click 'Logout' and verify the navigation bar no longer shows a username and points.
+
+  * Logged in users Total Score and Total Song Score
+    * Enter username in login box, click login, start song stream and enter an answer, it will be evaluated and a score applied which will then be shown in the 'Total Song Points' and the user's points in the navigation bar.
+    * Logout, then login and the users updated score will be shown in the navigation bar.
+
 
 ## Known Issues
 
