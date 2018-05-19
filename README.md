@@ -52,7 +52,7 @@ You will need the following things properly installed on your computer.
 ## Known Issues
 
 * On small screens the login/logout text box will reduce in width so the text cannot been seen and the logout button can be forced to the next line in some instances.
-* The API call to musixmatch fails causing the error 500 page to be shown which will fail the test as well.
+* The API call to musixmatch fails causing the error 500 page to be shown which will fail the test suite as well.
 * PouchDB is not encrypted so will be accessable to all in the browser
 * Flask passes variable data to the template which is displayed in page source
 * Clicking play on the video will play in full screen on iphone mobile browser with prevents the user entering the answers
