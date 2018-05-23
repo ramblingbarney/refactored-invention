@@ -8,6 +8,8 @@ import music
 from random import randint, random
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
+from collections import OrderedDict
+from operator import itemgetter
 
 app = Flask(__name__)
 
@@ -23,12 +25,27 @@ pre_canned_videoId = ['YQHsXMglC9A','0-EF60neguk','MN3x-kAbgFU','YR5ApYxkU-U','n
 def levestein_score(to_be_scored_string, answer):
     return fuzz.ratio(to_be_scored_string, answer)
 
-def search_from_file(filename, search_term):
+def search_from_file(filename, search_term,search_type):
     """Handle the process of searching for data in a file"""
     with open(filename, "r") as searchfile:
-        for line in searchfile:
-            if search_term in line:
-                return line.rstrip()
+        if search_type == 0:
+            for line in searchfile:
+                if search_term in line:
+                    return line.rstrip()
+        elif search_type == 1:
+            file_lines = {}
+            for num, line in enumerate(searchfile, 0):
+                if search_term in line:
+                    file_lines[num] = line.rstrip()
+            return file_lines if any(file_lines) else None
+
+def read_from_file(filename):
+    """Handle the process of reading data from a file"""
+    file_lines = dict()
+    with open(filename, "r") as readfile:
+        for num, line in enumerate(readfile, 0):
+            file_lines[num] = line.rstrip()
+        return file_lines
 
 def update_file(filename, update_term, write_value):
     """Handle the process of updating data in a file"""
@@ -36,7 +53,6 @@ def update_file(filename, update_term, write_value):
     data = update_term + "," + write_value
 
     with open(filename + ".w", "w") as outFile:
-
 
         with open(filename, "r") as inputfile:
             for line in inputfile:
@@ -131,7 +147,7 @@ def login():
     if request.method == "POST":
         data = json.loads(request.data) # load JSON data from request
 
-        result = search_from_file('data/players.txt',data['userName'])
+        result = search_from_file('data/players.txt',data['userName'],0)
 
         if (result):
 
@@ -157,8 +173,44 @@ def all_players():
 
 @app.route('/leaderboard')
 def leaderboard():
-    return render_template("leaderboard.html")
 
+    class_list = ['bg-primary','bg-warning','bg-success','bg-danger']
+
+    all_players = read_from_file('data/players.txt')
+
+    names_dict = {}
+
+    for name in list(all_players.values()):
+
+        name_array = name.split(",")
+
+        names_dict[name_array[0]] = int(name_array[1])
+
+    names = list(OrderedDict(sorted(names_dict.items(), key = itemgetter(1), reverse = True)).keys())
+
+    classes = class_list * (len(names) + 1)
+
+    result = []
+
+    for name in names:
+
+        raw_result = search_from_file('data/song_scores.txt', name,1)
+
+        if ( raw_result is not None ):
+            string = ""
+            for key, value in raw_result.items():
+                string += "<li>{0} - {1}</li>".format(value.split(",")[1],value.split(",")[2])
+            result.append(string)
+        else:
+            result.append('<li>No Completed Song Scores</li>')
+
+    if ( len(names) > 0 ):
+        True
+    else:
+        names = ["Log in to join the fun"]
+        result = ["<li>No Completed Song Scores</li>"]
+
+    return render_template("leaderboard.html", names_classes=zip(names,classes[:len(names)],result))
 
 def handle_exception(exc_type, exc_value, exc_traceback):
     if issubclass(exc_type, KeyboardInterrupt):

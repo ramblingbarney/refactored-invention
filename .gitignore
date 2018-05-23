@@ -7,3 +7,4 @@ bin*
 selenium*
 pyvenv.cfg
 ghostdriver.log
+pip-selfcheck.json

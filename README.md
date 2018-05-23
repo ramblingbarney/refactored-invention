@@ -42,6 +42,14 @@ You will need the following things properly installed on your computer.
     * At timed intervals the lyrics are shown in blue text
     * The answers are scored and the points awarded are shown below the answer.
 
+### Leaderboard Page User Stories
+
+* As a user I want to see a list of all players with scores from left to right using a different colour.
+
+  * Example acceptance criteria:
+    *  Each player that has created a login and scored at least one point will be shown
+    *  Each player that has completed a song with a sore will have it listed below their name when you click 'View Scores'
+    
 ## Manual Testing
 
   * Login & Logout.
@@ -53,6 +61,9 @@ You will need the following things properly installed on your computer.
     * Enter username in login box, click login, start song stream and enter an answer, it will be evaluated and a score applied which will then be shown in the 'Total Song Points' and the user's points in the navigation bar.
     * Logout, then login and the users updated score will be shown in the navigation bar.
 
+  * Leaderboard
+    * execute this command 'cat data/players.txt' and ensure the order left to right reflects the highest to lowest player scores shown
+    * execute this command 'cat data/song_scores.txt' and ensure the songs listed with the username in the first column are correctly assigned to the user 'View Scores'
 
 ## Known Issues
 
