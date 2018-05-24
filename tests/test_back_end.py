@@ -96,7 +96,7 @@ class TestMusic(unittest.TestCase):
 
         def is_lyric_sequence():
             for i in lyric[1]:
-                
+
                 if ( len(i['lyric']) >= 2 & isinstance(i['lyric'], str) ):
                     True
                 else:

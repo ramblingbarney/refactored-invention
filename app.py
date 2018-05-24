@@ -37,7 +37,7 @@ def search_from_file(filename, search_term,search_type):
             for num, line in enumerate(searchfile, 0):
                 if search_term in line:
                     file_lines[num] = line.rstrip()
-            return file_lines if any(file_lines) else None
+            return file_lines if any(file_lines.values()) else None
 
 def read_from_file(filename):
     """Handle the process of reading data from a file"""
@@ -68,6 +68,65 @@ def write_to_file(filename, data):
     """Handle the process of writing data to a file"""
     with open(filename, "a") as file:
         file.writelines("{}\n".format(data))
+
+def generate_leaderboard(leaderboard_length):
+
+    class_list = ['bg-primary','bg-warning','bg-success','bg-danger']
+
+    all_players = read_from_file('data/players.txt')
+
+    names_dict = {}
+
+    names = []
+
+    result = []
+
+    # check for empty players file and return placeholder values for template display without further processing
+    if ( len(list(all_players.values()) ) == 0):
+
+        names = ["Log in to join the fun"]
+        result = ["<li>No Completed Song Scores</li>"]
+
+        return [names,class_list,result]
+
+    # create a list of all players names
+
+    for name in list(all_players.values()):
+
+        name_array = name.split(",")
+
+        names_dict[name_array[0]] = int(name_array[1])
+
+        names = list(OrderedDict(sorted(names_dict.items(), key = itemgetter(1), reverse = True)).keys())
+
+    for name in names:
+        # select all songs by person, if no songs 'None' is returned
+        raw_result = search_from_file('data/song_scores.txt', name,1) # 0 returns the first result, 1 returns all results
+
+        if ( raw_result is not None ):
+            string = ""
+            for key, value in raw_result.items():
+                string += "<li>{0} - {1}</li>".format(value.split(",")[1],value.split(",")[2])
+            result.append(string)
+        else:
+            result.append('<li>No Completed Song Scores</li>')
+
+    # create list of classes which is longer than the names, extra is ignored in the template
+    classes = class_list * (len(names))
+
+    # print(names)
+    # print(classes)
+    # print(result)
+
+    # if called with the same number of names in the song score file return all available names
+    if ( leaderboard_length >= len(names) ):
+        return [names,classes,result]
+    elif ( leaderboard_length == 0 ):
+        return [names,classes,result]
+    else:
+    # if called with less than the number of names in the song score file return then number requested
+        return [names[:leaderboard_length],classes[:leaderboard_length],result[:leaderboard_length]]
+
 
 @app.route('/', methods=['GET'])
 def index():
@@ -174,43 +233,9 @@ def all_players():
 @app.route('/leaderboard')
 def leaderboard():
 
-    class_list = ['bg-primary','bg-warning','bg-success','bg-danger']
+    template_values = generate_leaderboard(0) # 0 option provides full results, called with interger option
 
-    all_players = read_from_file('data/players.txt')
-
-    names_dict = {}
-
-    for name in list(all_players.values()):
-
-        name_array = name.split(",")
-
-        names_dict[name_array[0]] = int(name_array[1])
-
-    names = list(OrderedDict(sorted(names_dict.items(), key = itemgetter(1), reverse = True)).keys())
-
-    classes = class_list * (len(names) + 1)
-
-    result = []
-
-    for name in names:
-
-        raw_result = search_from_file('data/song_scores.txt', name,1)
-
-        if ( raw_result is not None ):
-            string = ""
-            for key, value in raw_result.items():
-                string += "<li>{0} - {1}</li>".format(value.split(",")[1],value.split(",")[2])
-            result.append(string)
-        else:
-            result.append('<li>No Completed Song Scores</li>')
-
-    if ( len(names) > 0 ):
-        True
-    else:
-        names = ["Log in to join the fun"]
-        result = ["<li>No Completed Song Scores</li>"]
-
-    return render_template("leaderboard.html", names_classes=zip(names,classes[:len(names)],result))
+    return render_template("leaderboard.html", names_classes=zip(template_values[0],template_values[1],template_values[2]))
 
 def handle_exception(exc_type, exc_value, exc_traceback):
     if issubclass(exc_type, KeyboardInterrupt):
