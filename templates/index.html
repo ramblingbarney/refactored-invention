@@ -345,6 +345,9 @@
                   // Update the points for the individual answer
                   document.getElementById( "answer-points" ).innerText = data.score + " points";
 
+                  // Wipe the user answer text which has been evaluated and scored
+                  document.getElementById( "user-answer" ).value = "";
+
                   // Create a running total for the song
                   songPointsTotal = Number(document.getElementById( "song-points" ).innerText) + Number(data.score);
 
