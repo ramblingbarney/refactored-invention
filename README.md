@@ -42,6 +42,10 @@ You will need the following things properly installed on your computer.
     * At timed intervals the lyrics are shown in blue text
     * The answers are scored and the points awarded are shown below the answer.
 
+* As a user I want to see a warning message on the page if cookies are disabled in the browser
+  * Example acceptance criteria:
+    * Warning message is shown asking user to enable cookies
+
 ### Leaderboard Page User Stories
 
 * As a user I want to see a list of all players with scores from left to right using a different colour.
@@ -49,7 +53,17 @@ You will need the following things properly installed on your computer.
   * Example acceptance criteria:
     *  Each player that has created a login and scored at least one point will be shown
     *  Each player that has completed a song with a sore will have it listed below their name when you click 'View Scores'
-    
+
+* As a user I want to see a warning message on the page if cookies are disabled in the browser
+    * Example acceptance criteria:
+    * Warning message is shown asking user to enable cookies
+
+### All Players User Stories
+
+* As a user I want to see a warning message on the page if cookies are disabled in the browser
+    * Example acceptance criteria:
+    * Warning message is shown asking user to enable cookies
+
 ## Manual Testing
 
   * Login & Logout.
@@ -64,6 +78,9 @@ You will need the following things properly installed on your computer.
   * Leaderboard
     * execute this command 'cat data/players.txt' and ensure the order left to right reflects the highest to lowest player scores shown
     * execute this command 'cat data/song_scores.txt' and ensure the songs listed with the username in the first column are correctly assigned to the user 'View Scores'
+
+  * Cookie Warning
+    * Disable cookies in the browser settings and then navigate to the index, all players and leaderboard pages and check to see if working message is shown at the top
 
 ## Known Issues
 

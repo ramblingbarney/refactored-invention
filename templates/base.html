@@ -65,8 +65,6 @@
     </nav>
 
     {% block content %} {% endblock %}
-
-
     <!-- Footer -->
     <footer class="py-1 bg-dark">
       <div class="container">
@@ -78,6 +76,8 @@
     <!-- Bootstrap core JavaScript -->
       <script src="{{url_for('static', filename='vendor/jquery/jquery.min.js')}}"></script>
       <script src="{{url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+    <!-- Check of cookies and if disabled show warning -->
+      <script src="{{url_for('static', filename='js/cookie-test-0.1.js')}}"></script>
   </body>
 
 </html>

@@ -1,6 +1,5 @@
 import os
 
-
 def search_from_file(filename, search_term,search_type):
     """Handle the process of searching for data in a file"""
     with open(filename, "r") as searchfile:

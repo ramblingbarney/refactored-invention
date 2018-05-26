@@ -10,8 +10,9 @@ import game_operations
 from random import randint, random
 
 app = Flask(__name__)
+app.secret_key = 'aEP#gtR}isb2vG*={o-ui_WR6X9*<72NCe8CN7Ej6fMAyIOIlr'
 
-# error logging
+#error logging
 logging.basicConfig(filename='log/guess_next_line.log',format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG)
 logger=logging.getLogger(__name__)
 handler = logging.StreamHandler(stream=sys.stdout)

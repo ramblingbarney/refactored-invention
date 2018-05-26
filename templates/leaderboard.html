@@ -8,6 +8,16 @@
     <h3 class="my-4 pt-5">Leaderboard</h3>
 
     <div class="row">
+      <div class="col-12 mb-3">
+        <div class="card text-red d-none h-100 justify-content-center align-items-center" id="flash-message-box">
+            <div class="mr-5">
+              <span>Please allow cookies for login and video</span>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
     {% for name,colour_class,html in names_classes %}
       <div class="col-xl-3 col-sm-6 mb-3">
         <div class="card text-white {{ colour_class }} o-hidden h-100">
