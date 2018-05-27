@@ -4,6 +4,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup
 import time
+import game_operations
 
 class FlaskGameUITests(unittest.TestCase):
 
@@ -69,4 +70,39 @@ class FlaskGameUITests(unittest.TestCase):
         time.sleep(3)
         html_tag_text = driver.find_element_by_id('answer-points').text
         assert "points" in html_tag_text
+        driver.quit
+
+    def test_leaderboard_page_names(self):
+        # test the names rendered on the leaderboard page match the names in the order and value from the file
+
+        # collect the names, classes and song scores from the filename
+        file_results = game_operations.generate_leaderboard(0)
+        # test the rendered page contains the Home, Leaderboard and Who's Playing text
+        driver = webdriver.PhantomJS(executable_path='/usr/local/bin/phantomjs', port=9134, service_args=['--ignore-ssl-errors=true', '--ssl-protocol=tlsv1'])
+        driver.get("http://localhost:5000/leaderboard")
+        time.sleep(3)
+        soup = BeautifulSoup(driver.page_source,'html5lib')
+        elements = []
+        for line in soup.find_all('div', {'class':'leaderboard-name'}):
+            elements.append(line.contents[0])
+
+        self.assertListEqual(file_results[0], elements)
+        driver.quit
+
+    def test_leaderboard_page_second_name_song_scores(self):
+        # test the second player individual songs from the file match leaderbaord page
+
+        # collect the names, classes and song scores from the filename
+        file_results = game_operations.generate_leaderboard(0)
+        line_list = file_results[2][1].replace('<li>','').split('</li>')
+        del line_list[-1]
+
+        driver = webdriver.PhantomJS(executable_path='/usr/local/bin/phantomjs', port=9134, service_args=['--ignore-ssl-errors=true', '--ssl-protocol=tlsv1'])
+        driver.get("http://localhost:5000/leaderboard")
+        time.sleep(3)
+        soup = BeautifulSoup(driver.page_source,'html5lib')
+        elements = []
+        for line in soup.find('div', {'id':'individual-song-scores2'}).find_all('li'):
+            elements.append(line.contents[0].strip())
+        self.assertListEqual(line_list, elements)
         driver.quit
