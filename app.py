@@ -41,7 +41,6 @@ def index():
         randomNumber = randint(0,len(pre_canned_videoId)- 1)
 
         try:
-
             rawlyric = music.fetch_srt('xxx',pre_canned_videoId[randomNumber])
 
             lyric = music.convert_srt(rawlyric)
