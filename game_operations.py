@@ -4,6 +4,9 @@ from operator import itemgetter
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
 
+
+# this is a python implenentation of the published theory https://en.wikipedia.org/wiki/Levenshtein_distance
+# I have used a library provided by SeatGeek https://github.com/seatgeek/fuzzywuzzy
 def levestein_score(to_be_scored_string, answer):
     return fuzz.ratio(to_be_scored_string, answer)
 
