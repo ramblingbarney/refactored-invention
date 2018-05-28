@@ -22,8 +22,19 @@ You will need the following things properly installed on your computer.
 * Download the latest phantomjs binary: http://phantomjs.org, update line 52 of 'test_front_end.py' to the location of the pantomjs binary
 * `phantomjs-1.9.8-linux-x86_64/bin/phantomjs --webdriver=9134`
 * `python3 -m unittest tests/test_front_end.py`
+* `python3 -m unittest tests/test_back_end.py`
 
 ## Acceptance tests
+
+### All Pages
+
+### Top Players User Stories
+
+* As a user I want to see the top 4 players with scores from left to right using a different colour.
+
+  * Example acceptance criteria:
+    *  Each player that has created a login and scored at least one point will be shown
+    *  Each player that has completed a song with a sore will have it listed below their name when you click 'View Scores'
 
 ### Home Page User Stories
 

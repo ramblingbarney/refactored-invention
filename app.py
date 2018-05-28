@@ -45,7 +45,9 @@ def index():
 
             lyric = music.convert_srt(rawlyric)
 
-            return render_template("index.html", page_title="Home", value=pre_canned_videoId[randomNumber],lyrics=lyric)
+            template_values = game_operations.generate_leaderboard(4) # 0 option provides full results, called with interger option
+
+            return render_template("index.html", page_title="Home", value=pre_canned_videoId[randomNumber],lyrics=lyric,names_classes=zip(template_values[0],template_values[1],template_values[2]))
 
         except Exception as err:
             logger.error(err)
@@ -120,6 +122,7 @@ def login():
 
 @app.route('/all_players')
 def all_players():
+
     return render_template("all_players.html")
 
 @app.route('/leaderboard')
