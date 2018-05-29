@@ -39,8 +39,8 @@ def generate_leaderboard(leaderboard_length):
 
         names_dict[name_array[0]] = int(name_array[1])
 
-        names = list(OrderedDict(sorted(names_dict.items(), key = itemgetter(1), reverse = True)).keys())
-
+    names = list(OrderedDict(sorted(names_dict.items(), key = itemgetter(1), reverse = True)).keys())
+#unpack into serval lines and comments
     for name in names:
         # select all songs by person, if no songs 'None' is returned
         raw_result = file_operations.search_from_file('data/song_scores.txt', name,1) # 0 returns the first result, 1 returns all results
