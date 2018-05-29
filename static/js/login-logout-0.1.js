@@ -85,7 +85,7 @@ function login(URL,inputName) {
 
 function logOut() {
 
-  writeOutDataToFile('/update_score',[getCookie('user_name'),getCookie('total_score')])
+  writeOutDataToFile('/update_score',[getCookie('user_name'),getCookie('total_score'),0])
   deleteCookie('user_name');
   deleteCookie('total_score');
   document.getElementById( "player-name" ).innerText = "";
