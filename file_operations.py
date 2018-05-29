@@ -1,9 +1,9 @@
 import os
 
 def search_from_file(filename, search_term,search_type):
-    """Handle the process of searching for data in a file"""
+    '''Handle the process of searching for data in a file'''
     with open(filename, "r") as searchfile:
-        if search_type == 0:
+        if search_type == 0: #use string
             for line in searchfile:
                 if search_term in line:
                     return line.rstrip()
@@ -15,7 +15,7 @@ def search_from_file(filename, search_term,search_type):
             return file_lines if any(file_lines.values()) else None
 
 def read_from_file(filename):
-    """Handle the process of reading data from a file"""
+    '''Handle the process of reading data from a file'''
     file_lines = dict()
     with open(filename, "r") as readfile:
         for num, line in enumerate(readfile, 0):
@@ -23,11 +23,11 @@ def read_from_file(filename):
         return file_lines
 
 def update_file(filename, update_term, write_value):
-    """Handle the process of updating data in a file"""
+    '''Handle the process of updating data in a file'''
 
     data = update_term + "," + write_value
 
-    with open(filename + ".w", "w") as outFile:
+    with open(filename + ".tmp", "w") as outFile:
 
         with open(filename, "r") as inputfile:
             for line in inputfile:
@@ -36,10 +36,10 @@ def update_file(filename, update_term, write_value):
                     outFile.writelines("{}\n".format(data.rstrip()))
                 else:
                     outFile.writelines("{}\n".format(line.rstrip()))
-    os.rename(filename + ".w", filename)
+    os.rename(filename + ".tmp", filename)
 
 
 def write_to_file(filename, data):
-    """Handle the process of writing data to a file"""
+    '''Handle the process of writing data to a file'''
     with open(filename, "a") as file:
         file.writelines("{}\n".format(data))
