@@ -3,6 +3,8 @@ var today = new Date();
 var expiry = new Date(today.getTime() + 30 * 24 * 3600 * 1000); // plus 30 days
 var expired = new Date(today.getTime()); // plus 30 days
 
+// When the page is refreshed the currently logged in user details are reloaded from the cookie
+
 window.onload = function() {
 
   if (getCookie('user_name')) {
@@ -31,9 +33,9 @@ function getCookie(name) {
     return (value != null) ? unescape(value[1]) : null;
 }
 
-function login(URL,inputName) {
+// login request to the login app route
 
-  var url = URL;
+function login(url,inputName) {
 
   // The data we are going to send in our request
 
@@ -63,13 +65,12 @@ function login(URL,inputName) {
 
           if (data){
 
+            // store the response data values in the cookie
             setCookie('user_name', data.user_name);
             setCookie('total_score', data.total_score);
 
-            document.getElementById( "player-name" ).innerText = getCookie('user_name');
-            document.getElementById( "total-points" ).innerText = getCookie('total_score');
-            document.getElementById( "login-name" ).value = "";
-
+            // Update the UI with values stored in the cookie
+            logInUpdateUI();
 
           }
 
@@ -83,20 +84,39 @@ function login(URL,inputName) {
     });
 }
 
-function logOut() {
+function logInUpdateUI() {
 
-  writeOutDataToFile('/update_score',[getCookie('user_name'),getCookie('total_score'),0])
-  deleteCookie('user_name');
-  deleteCookie('total_score');
-  document.getElementById( "player-name" ).innerText = "";
-  document.getElementById( "total-points" ).innerText = "";
+  // display username in the nav bar
+  document.getElementById( "player-name" ).innerText = getCookie('user_name');
+  // display user score in the nav bar
+  document.getElementById( "total-points" ).innerText = getCookie('total_score');
+  // remove username from the login input box
   document.getElementById( "login-name" ).value = "";
 
 }
 
-function writeOutDataToFile(URL,writeData) {
+function logOutUpdateUI(){
 
-  var url = URL;
+  // update the UI to remove users name, total score from the nav bar
+  document.getElementById( "player-name" ).innerText = "";
+  document.getElementById( "total-points" ).innerText = "";
+
+}
+
+function logOut() {
+
+  // store users total score in file
+  writeOutDataToFile('/update_score',[getCookie('user_name'),getCookie('total_score'),0]);
+  // delete user's username from the users cookie
+  deleteCookie('user_name');
+  // delete user's total score from the users cookie
+  deleteCookie('total_score');
+  // update the UI
+  logOutUpdateUI();
+
+}
+
+function writeOutDataToFile(url,writeData) {
 
   // The data we are going to send in our request
 
