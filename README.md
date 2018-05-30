@@ -1,7 +1,10 @@
 # Stream 2A Flask application
 
-This README outlines the details of collaborating on this Ember application.
-This application is a game where the user guesses the next lyric that the video will plays
+The purpose of this application is to provide a proof of concept for a game where the user guesses the next line of the song being streamed.  
+
+Once the page is loaded the game is ready to play, click play on the video iframe and enter the song lyrics in the text box on the right of the video in desktop mode or for smaller screens below the video.
+
+To login enter a username in the nav bar input box and your song scores and total scores will be recorded and displayed on the page.  The game is queued to play a random selection from 15 videos, to start another game refresh the home/index page.
 
 ## Prerequisites
 
@@ -13,16 +16,16 @@ You will need the following things properly installed on your computer.
 
 ## Installation
 
-* `git clone git@github.com:ramblingbarney/refactored-invention.git` this repository
-* `cd refactored-invention`
-* `pip3 install -r /path/to/requirements.txt`
+* ```git clone git@github.com:ramblingbarney/refactored-invention.git```
+* ```cd refactored-invention```
+* ```pip3 install -r /path/to/requirements.txt```
 
 ### Running Tests
 
-* Download the latest phantomjs binary: http://phantomjs.org, update line 52 of 'test_front_end.py' to the location of the pantomjs binary
-* `phantomjs-1.9.8-linux-x86_64/bin/phantomjs --webdriver=9134`
-* `python3 -m unittest tests/test_front_end.py`
-* `python3 -m unittest tests/test_back_end.py`
+* Download the latest phantomjs binary: http://phantomjs.org, update line 52 of 'test_front_end.py' to the location of the pantomjs binary.
+* ```phantomjs-1.9.8-linux-x86_64/bin/phantomjs --webdriver=9134```
+* ```python3 -m unittest tests/test_front_end.py```
+* ```python3 -m unittest tests/test_back_end.py```
 
 ## Acceptance tests
 
@@ -100,3 +103,17 @@ You will need the following things properly installed on your computer.
 * PouchDB is not encrypted so will be accessable to all in the browser
 * Flask passes variable data to the template which is displayed in page source
 * Clicking play on the video will play in full screen on iphone mobile browser with prevents the user entering the answers
+
+## Code removed for existing version
+
+This API request is being bypassed due to the chance that video id's returned are not music videos or are music videos but the lyrics are not available.
+
+If this project was to be made into a live service a library would have to be constructed of vidoes with lyrics by videoCategory
+
+payload = {'part': 'snippet', 'key': 'AIzaSyDBJyenwpSZ3BFota9_w0aueB2lj9fnl1M', 'chart': 'mostPopular' ,'maxResults': 10, 'videoCategory': '10'}
+l = requests.Session().get('https://www.googleapis.com/youtube/v3/videos', params=payload)
+resp_dict = json.loads(l.content)
+ytVideoId = resp_dict['items'][0]['id']
+
+for i in range(len(resp_dict['items'])):
+  print(resp_dict['items'][i]['id'])
