@@ -4,7 +4,6 @@ from enum import Enum
 class search_type(Enum):
     SEARCH_TYPE.LINEAR = 0
     SEARCH_TYPE.PARALLEL = 1
-if search_type == SEARCH_TYPE.PARALLEL
 
 def search_from_file(filename, search_term,search_type):
     '''Handle the process of searching for data in a file'''
