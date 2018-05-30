@@ -42,13 +42,13 @@ def evaluate_answer():
     if request.method == "POST":
         data = json.loads(request.data) # load JSON data from request
 
-        score = str(game_operations.levestein_score(data['lyricAnswer']
+        score = str(game_operations.levenstein_score(data['lyricAnswer']
         , data['stringToBeEvaluated']))
 
-        return_data = {"score": score}
+        answer_score = {"score": score}
 
         response = app.response_class(
-            response=json.dumps(return_data),
+            response=json.dumps(answer_score),
             status=200,
             mimetype='application/json'
         )
@@ -92,17 +92,17 @@ def login():
 
         if (result):
 
-            return_data = result.split(',')
+            username_score = result.split(',')
 
         else:
 
             file_operations.write_to_file('data/players.txt',data['userName'] + ',0')
 
-            return_data = [data['userName'],0]
+            username_score = [data['userName'],0]
 
         response = app.response_class(
-            response=json.dumps({'user_name':return_data[0]
-                , 'total_score':return_data[1]})
+            response=json.dumps({'user_name':username_score[0]
+                , 'total_score':username_score[1]})
                 , status=200
                 , mimetype='application/json')
 
