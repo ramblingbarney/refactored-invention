@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Oups{% endblock %}
+{% block body %}
+  <h1>Oups</h1>
+  <p>We broke it, lets try
+  <a href="{{ url_for('index') }}">again</a></p>
+{% endblock %}
