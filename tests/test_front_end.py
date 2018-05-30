@@ -21,9 +21,14 @@ class FlaskGameUITests(unittest.TestCase):
         self.app = app.test_client()
         # propagate the exceptions to the test client
         self.app.testing = True
+        # create selenium phantomjs instance
+        driver = webdriver.PhantomJS(executable_path='/usr/local/bin/phantomjs'
+        , port=9134, service_args=['--ignore-ssl-errors=true'
+        , '--ssl-protocol=tlsv1'])
 
     def tearDown(self):
         pass
+        driver.quit()
 
     def test_home_status_code(self):
         # sends HTTP GET request to the application
@@ -50,37 +55,33 @@ class FlaskGameUITests(unittest.TestCase):
         self.assertEqual(result.status_code, 200)
 
     def test_home_page_links(self):
-        # test the rendered page contains the Home, Leaderboard and Who's Playing text
-        driver = webdriver.PhantomJS(executable_path='/usr/local/bin/phantomjs', port=9134, service_args=['--ignore-ssl-errors=true', '--ssl-protocol=tlsv1'])
+        '''test the rendered page contains the Home, Leaderboard
+            and Who's Playing text'''
+
         driver.get("http://localhost:5000")
         time.sleep(3)
         soup = BeautifulSoup(driver.page_source,'html5lib')
         elements = []
-        for line in soup.find('div', {'id':'navbarResponsive'}).find_all('a', {'class': 'nav-link'}):
+        for line in soup.find('div', {'id':'navbarResponsive'}).find_all('a',
+            {'class': 'nav-link'}):
             elements.append(line.contents[0])
-        assert "Home" in elements
-        assert "Leaderboard" in elements
-        assert "Who's Playing" in elements
-        driver.quit
-        time.sleep(5)
+        self.assertIn('Home',elements)
+        self.assertIn('Leaderboard',elements)
+        self.assertIn("Who's Playing",elements)
 
     def test_home_page_game_rendering(self):
-        # test the rendered page contains the answer points
-        driver = webdriver.PhantomJS(executable_path='/usr/local/bin/phantomjs', port=9134, service_args=['--ignore-ssl-errors=true', '--ssl-protocol=tlsv1'])
+        '''test the rendered page contains the answer points'''
         driver.get("http://localhost:5000")
         time.sleep(3)
         html_tag_text = driver.find_element_by_id('answer-points').text
         assert "points" in html_tag_text
-        driver.quit
-        time.sleep(5)
 
     def test_leaderboard_page_names(self):
-        # test the names rendered on the leaderboard page match the names in the order and value from the file
+        '''test the names rendered on the leaderboard page match the names in the order and value from the file'''
 
         # collect the names, classes and song scores from the filename
         file_results = game_operations.generate_leaderboard(0)
-        # test the rendered page contains the Home, Leaderboard and Who's Playing text
-        driver = webdriver.PhantomJS(executable_path='/usr/local/bin/phantomjs', port=9134, service_args=['--ignore-ssl-errors=true', '--ssl-protocol=tlsv1'])
+        #test the rendered page contains the Home, Leaderboard and Who's Playing text
         driver.get("http://localhost:5000/leaderboard")
         time.sleep(3)
         soup = BeautifulSoup(driver.page_source,'html5lib')
@@ -89,11 +90,10 @@ class FlaskGameUITests(unittest.TestCase):
             elements.append(line.contents[0])
 
         self.assertListEqual(file_results[0], elements)
-        driver.quit
-        time.sleep(5)
 
     def test_leaderboard_page_second_name_song_scores(self):
-        # test the second player individual songs from the file match leaderbaord page
+        '''test the second player individual songs from the
+            file match leaderbaord page'''
 
         # collect the names, classes and song scores from the filename
         file_results = game_operations.generate_leaderboard(0)
@@ -101,7 +101,6 @@ class FlaskGameUITests(unittest.TestCase):
         del line_list[-1]
         time.sleep(3)
 
-        driver = webdriver.PhantomJS(executable_path='/usr/local/bin/phantomjs', port=9134, service_args=['--ignore-ssl-errors=true', '--ssl-protocol=tlsv1'])
         driver.get("http://localhost:5000/leaderboard")
         time.sleep(3)
         soup = BeautifulSoup(driver.page_source,'html5lib')
@@ -109,16 +108,14 @@ class FlaskGameUITests(unittest.TestCase):
         for line in soup.find('div', {'id':'individual-song-scores2'}).find_all('li'):
             elements.append(line.contents[0].strip())
         self.assertListEqual(line_list, elements)
-        driver.quit
-        time.sleep(5)
 
     def test_top_players_names(self):
-        # test the names rendered on the home page match the names in the order and value from the file
+        '''test the names rendered on the home page match the names in
+            the order and value from the file'''
 
         # collect the names, classes and song scores from the filename
         file_results = game_operations.generate_leaderboard(4)
         # test the rendered page contains the Home, Leaderboard and Who's Playing text
-        driver = webdriver.PhantomJS(executable_path='/usr/local/bin/phantomjs', port=9134, service_args=['--ignore-ssl-errors=true', '--ssl-protocol=tlsv1'])
         driver.get("http://localhost:5000/")
         time.sleep(3)
         soup = BeautifulSoup(driver.page_source,'html5lib')
@@ -126,8 +123,6 @@ class FlaskGameUITests(unittest.TestCase):
         for line in soup.find_all('div', {'class':'top-player-name'}):
             elements.append(line.contents[0])
         self.assertListEqual(file_results[0], elements)
-        driver.quit
-        time.sleep(5)
 
     def test_top_players_second_name_song_scores(self):
         # test the second player individual songs from the file match leaderbaord page
@@ -138,7 +133,6 @@ class FlaskGameUITests(unittest.TestCase):
         del line_list[-1]
         time.sleep(3)
 
-        driver = webdriver.PhantomJS(executable_path='/usr/local/bin/phantomjs', port=9134, service_args=['--ignore-ssl-errors=true', '--ssl-protocol=tlsv1'])
         driver.get("http://localhost:5000/")
         time.sleep(3)
         soup = BeautifulSoup(driver.page_source,'html5lib')
@@ -146,4 +140,3 @@ class FlaskGameUITests(unittest.TestCase):
         for line in soup.find('div', {'id':'individual-song-scores2'}).find_all('li'):
             elements.append(line.contents[0].strip())
         self.assertListEqual(line_list, elements)
-        driver.quit
