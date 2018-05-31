@@ -9,11 +9,21 @@ from fuzzywuzzy import process
 # I have used a library provided by SeatGeek
  #https://github.com/seatgeek/fuzzywuzzy
 '''levenshtein string comparison'''
-levenshtein_score = fuzz.ratio(to_be_scored_string, answer);
+
+levenshtein_score = lambda to_be_scored_string, answer: fuzz.ratio(
+    to_be_scored_string, answer)
+
+# def levenshtein_score(to_be_scored_string, answer):
+#
+#     song_score = fuzz.ratio(to_be_scored_string, answer)
+#
+#     return song_score
 
 def create_list_all_players_names(all_game_players):
 
     '''create a list of all players names'''
+
+    names_dict = {}
 
     for name in list(all_game_players.values()):
 
@@ -26,7 +36,7 @@ def create_list_all_players_names(all_game_players):
     sorted_names_dict = sorted(names_dict.items(),
         key = itemgetter(1), reverse = True)
 
-    ordered_player_names list(OrderedDict(sorted_names_dict).keys())
+    ordered_player_names = list(OrderedDict(sorted_names_dict).keys())
 
     return ordered_player_names
 

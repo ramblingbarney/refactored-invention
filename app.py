@@ -34,8 +34,7 @@ def index():
 
     return render_template(
         "index.html", page_title="Home", value=pre_canned_videoId[random_number]
-        , lyrics=lyric, names_classes=zip(template_values[0],template_values[1]
-        , template_values[2]))
+        , lyrics=lyric, names_classes=zip(template_values[0],template_values[1]))
 
 @app.route('/evaluate_answer', methods=['POST'])
 def evaluate_answer():

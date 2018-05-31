@@ -1,19 +1,19 @@
 import os
-from enum import Enum
+import enum
 
-class search_type(Enum):
-    SEARCH_TYPE.LINEAR = 0
-    SEARCH_TYPE.PARALLEL = 1
+class SEARCH_TYPE(enum.Enum):
+    LINEAR = 0
+    PARALLEL = 1
 
 def search_from_file(filename, search_term,search_type):
     '''Handle the process of searching for data in a file'''
     with open(filename, "r") as searchfile:
         # returns full line of first instance of search term
-        if ( search_type == SEARCH_TYPE.LINEAR ):
+        if ( search_type == SEARCH_TYPE.LINEAR.value ):
             for line in searchfile:
                 if search_term in line:
                     return line.rstrip()
-        elif ( search_type == SEARCH_TYPE.PARALLEL ):
+        elif ( search_type == SEARCH_TYPE.PARALLEL.value ):
             # returns dictionary of all lines of search term
             file_lines = {}
             for num, line in enumerate(searchfile, 0):

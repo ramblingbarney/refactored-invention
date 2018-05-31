@@ -5,8 +5,6 @@ import time
 import datetime
 import re
 
-
-
 def fetch_srt(song_name,video_id):
 
     video_id = video_id
@@ -112,6 +110,3 @@ def convert_srt(raw_text):
 
 
     return json.dumps([times,values_list_lyric])
-
-# x = fetch_srt("Christy Moore - Weekend in Amsterdam","YQHsXMglC9A")
-# print(convert_srt(x))
