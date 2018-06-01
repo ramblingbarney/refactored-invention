@@ -3,10 +3,8 @@
 <!-- Page Content -->
 <div class="container">
 
-
     <!-- Member Scores  Row -->
     <h3 class="my-4 pt-5">Leaderboard</h3>
-
     <div class="row">
       <div class="col-12 mb-3">
         <div class="card text-red d-none h-100 justify-content-center align-items-center" id="flash-message-box">
@@ -17,25 +15,26 @@
       </div>
     </div>
 
-    <div class="row">
-    {% for name,colour_class,html in names_classes %}
-      <div class="col-xl-3 col-sm-6 mb-3">
-        <div class="card text-white {{ colour_class }} o-hidden h-100">
-          <div class="card-body">
-            <div class="card-body-icon">
-              <i class="fa fa-fw fa-comments"></i>
+      <div class="row">
+        {% for name,song in names_songs %}
+          <div class="col-xl-3 col-sm-6 mb-3">
+            <div class="card text-white {{ loop.cycle('bg-primary', 'bg-warning'
+            , 'bg-success', 'bg-danger') }} o-hidden h-100">
+              <div class="card-body">
+                <div class="card-body-icon">
+                  <i class="fa fa-fw fa-comments"></i>
+                </div>
+                <div class="mr-5 top-player-name">{{ name }}</div>
+              </div>
+              <a class="card-footer text-white clearfix small z-1" href="#">
+                <span class="float-left"><span data-toggle="collapse" data-target="#individual-song-scores{{ loop.index }}">View Scores</span><div id="individual-song-scores{{ loop.index }}" class="collapse">{{ song }}</div></span>
+                <span class="float-right">
+                  <i class="fa fa-angle-right"></i>
+                </span>
+              </a>
             </div>
-            <div class="mr-5 leaderboard-name">{{ name }}</div>
           </div>
-          <a class="card-footer text-white clearfix small z-1" href="#">
-            <span class="float-left"><span data-toggle="collapse" data-target="#individual-song-scores{{ loop.index }}">View Scores</span><div id="individual-song-scores{{ loop.index }}" class="collapse">{{ html|safe }}</div></span>
-            <span class="float-right">
-              <i class="fa fa-angle-right"></i>
-            </span>
-          </a>
-        </div>
-      </div>
-    {% endfor %}
+        {% endfor %}
 
     </div>
     <!-- /.row -->

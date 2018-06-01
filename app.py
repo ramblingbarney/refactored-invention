@@ -30,11 +30,12 @@ def index():
     lyric = music.convert_srt(raw_lyric)
 
     # get a list of 4 players and songs for the top scores section
-    template_values = game_operations.generate_leaderboard(4)
+    template_name_songs = game_operations.generate_leaderboard(4)
 
     return render_template(
         "index.html", page_title="Home", value=pre_canned_videoId[random_number]
-        , lyrics=lyric, names_classes=zip(template_values[0],template_values[1]))
+        , lyrics=lyric, names_songs=zip(template_name_songs[0]
+            , template_name_songs[1]))
 
 @app.route('/evaluate_answer', methods=['POST'])
 def evaluate_answer():
@@ -120,15 +121,15 @@ def leaderboard():
     # number of results or the total number availabe where
     # this is a lower number
 
-    template_values = game_operations.generate_leaderboard(0)
-
+    template_name_songs = game_operations.generate_leaderboard(0)
+    
     return render_template("leaderboard.html"
-        , names_classes=zip(template_values[0], template_values[1]
-        , template_values[2]))
+        , names_songs=zip(template_name_songs[0], template_name_songs[1]))
 
 @app.errorhandler(504)
-def getway_time_out(e):
+def gateway_time_out(e):
     return render_template('504.html'), 504
+
 
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'),

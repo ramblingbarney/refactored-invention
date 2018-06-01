@@ -25,7 +25,9 @@ def create_list_all_players_names(all_game_players):
 
     names_dict = {}
 
-    for name in list(all_game_players.values()):
+    names = list(all_game_players.values())
+
+    for name in names:
 
         name_array = name.split(",")
 
@@ -50,7 +52,7 @@ def create_song_list_each_name(names):
         # select all songs by person, if no songs 'None' is returned
         # 'first' returns the first result, 'all' returns all results
         raw_result = file_operations.search_from_file(
-        'data/song_scores.txt', name,'all')
+        'data/song_scores.txt', name,1)
 
         if ( raw_result is not None ):
 
@@ -68,26 +70,23 @@ def create_song_list_each_name(names):
 def generate_leaderboard(leaderboard_length):
 
     '''create a leaderboard of n length'''
-
+    # select all player naames
     all_players = file_operations.read_from_file('data/players.txt')
+    # create a list of player names ordered by total score desceding
+    names_in_order = create_list_all_players_names(all_players)
+    # create a list of each players songs in the same order as 'names_in_order'
+    songs_scores_per_player_order = create_song_list_each_name(names_in_order)
 
-    # check for empty players file and return placeholder values for template
-    # display without further processing
-    if ( leaderboard_length == 0 ):
+    # Return all players and songs if called with 'leaderboard_length' of zero, if called
+    # with a 'leaderboard_length' higher than the number of names return all
+    if ( leaderboard_length == 0 or leaderboard_length >= len(names_in_order)):
 
-        return [['Log in to join the fun'],['No Completed Song Scores']]
-
+        return [names_in_order,songs_scores_per_player_order]
+    # return placeholders if no players
     elif ( len(list(all_players.values()) ) == 0 ):
 
         return [['Log in to join the fun'],['No Completed Song Scores']]
-
-    names_in_order = create_list_all_players_names(all_players)
-
-    songs_scores_per_player_order = create_song_list_each_name(names_in_order)
-
-    # if called with the same number of names in the song score file return all available names
-    if ( leaderboard_length >= len(names_in_order) ):
-        return [names_in_order,songs_scores_per_player_order]
+    # if the number of players is higher than the 'leaderboard_length'
+    # return the amount requested
     else:
-    # if called with less than the number of names in the song score file return then number requested
-        return [names_in_order[:leaderboard_length],songs_scores_per_player_order[:leaderboard_length]]
+        return [names_in_order[:leaderboard_length], songs_scores_per_player_order[:leaderboard_length]]
