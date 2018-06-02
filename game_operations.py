@@ -80,21 +80,21 @@ def generate_leaderboard(leaderboard_length):
     # create a list of each players songs in the same order as 'names_in_order'
     songs_scores_per_player_order = create_song_list_each_name(names_in_order)
 
-    # Return all players and songs if called with 'leaderboard_length' of zero, if called
-    # with a 'leaderboard_length' higher than the number of names return all
-    if ( leaderboard_length == 0 or leaderboard_length >= len(names_in_order)):
 
+    if ( len(list(all_players.values()) ) == 0 ):
+    # return placeholders if no players
+        return OrderedDict([('Log in to join the fun', ['No Completed Song Scores'])])
+
+    elif ( leaderboard_length == 0 or leaderboard_length >= len(names_in_order)):
+
+        # Return all players and songs if called with 'leaderboard_length' of zero, if called
+        # with a 'leaderboard_length' higher than the number of names return all
         return songs_scores_per_player_order
 
-    # return placeholders if no players
-    elif ( len(list(all_players.values()) ) == 0 ):
-
-        return OrderedDict([('Log in to join the fun', ['No Completed Song Scores'])])
-        # return [['Log in to join the fun'],['No Completed Song Scores']]
-    # if the number of players is higher than the 'leaderboard_length'
-    # return the amount requested
     else:
 
+        # if the number of players is higher than the 'leaderboard_length'
+        # return the amount requested
         sliced = islice(songs_scores_per_player_order.items(), leaderboard_length)
         sliced_o = OrderedDict(sliced)
 
