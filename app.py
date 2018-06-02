@@ -122,7 +122,6 @@ def leaderboard():
     # this is a lower number
 
     template_users_history = game_operations.generate_leaderboard(2)
-    print(template_users_history)
 
     return render_template("leaderboard.html"
         , users_history=template_users_history)
