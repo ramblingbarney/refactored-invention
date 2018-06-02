@@ -1,4 +1,5 @@
 import file_operations
+import json
 from collections import OrderedDict
 from operator import itemgetter
 from fuzzywuzzy import fuzz
@@ -12,12 +13,6 @@ from fuzzywuzzy import process
 
 levenshtein_score = lambda to_be_scored_string, answer: fuzz.ratio(
     to_be_scored_string, answer)
-
-# def levenshtein_score(to_be_scored_string, answer):
-#
-#     song_score = fuzz.ratio(to_be_scored_string, answer)
-#
-#     return song_score
 
 def create_list_all_players_names(all_game_players):
 
@@ -46,9 +41,14 @@ def create_song_list_each_name(names):
 
     '''create a list of songs and scores per name'''
 
-    name_songs_with_scores = []
+    name_songs_with_scores = {}
+
+    users_history = OrderedDict()
 
     for name in names:
+
+        name_individual_songs = []
+
         # select all songs by person, if no songs 'None' is returned
         # 'first' returns the first result, 'all' returns all results
         raw_result = file_operations.search_from_file(
@@ -58,14 +58,16 @@ def create_song_list_each_name(names):
 
             for key, value in raw_result.items():
 
-                name_songs_with_scores.append(
+                name_individual_songs.append(
                     "{0} - {1}".format(value.split(",")[1],value.split(",")[2]))
 
         else:
 
-            name_songs_with_scores.append('No Completed Song Scores')
+            name_individual_songs.append('No Completed Song Scores')
 
-    return name_songs_with_scores
+        users_history[name] = name_individual_songs
+
+    return users_history
 
 def generate_leaderboard(leaderboard_length):
 
@@ -81,7 +83,8 @@ def generate_leaderboard(leaderboard_length):
     # with a 'leaderboard_length' higher than the number of names return all
     if ( leaderboard_length == 0 or leaderboard_length >= len(names_in_order)):
 
-        return [names_in_order,songs_scores_per_player_order]
+        return songs_scores_per_player_order
+
     # return placeholders if no players
     elif ( len(list(all_players.values()) ) == 0 ):
 
