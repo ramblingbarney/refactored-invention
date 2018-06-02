@@ -1,6 +1,7 @@
 import file_operations
 import json
 from collections import OrderedDict
+from itertools import islice
 from operator import itemgetter
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
@@ -88,8 +89,13 @@ def generate_leaderboard(leaderboard_length):
     # return placeholders if no players
     elif ( len(list(all_players.values()) ) == 0 ):
 
-        return [['Log in to join the fun'],['No Completed Song Scores']]
+        return OrderedDict([('Log in to join the fun', ['No Completed Song Scores'])])
+        # return [['Log in to join the fun'],['No Completed Song Scores']]
     # if the number of players is higher than the 'leaderboard_length'
     # return the amount requested
     else:
-        return [names_in_order[:leaderboard_length], songs_scores_per_player_order[:leaderboard_length]]
+
+        sliced = islice(songs_scores_per_player_order.items(), leaderboard_length)
+        sliced_o = OrderedDict(sliced)
+
+        return sliced_o

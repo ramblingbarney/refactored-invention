@@ -121,7 +121,7 @@ def leaderboard():
     # number of results or the total number availabe where
     # this is a lower number
 
-    template_users_history = game_operations.generate_leaderboard(0)
+    template_users_history = game_operations.generate_leaderboard(2)
     print(template_users_history)
 
     return render_template("leaderboard.html"
