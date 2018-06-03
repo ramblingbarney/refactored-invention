@@ -22,13 +22,13 @@ class FlaskGameUITests(unittest.TestCase):
         # propagate the exceptions to the test client
         self.app.testing = True
         # create selenium phantomjs instance
-        driver = webdriver.PhantomJS(executable_path='/usr/local/bin/phantomjs'
+        self.driver = webdriver.PhantomJS(executable_path='/usr/local/bin/phantomjs'
         , port=9134, service_args=['--ignore-ssl-errors=true'
         , '--ssl-protocol=tlsv1'])
 
     def tearDown(self):
         pass
-        driver.quit()
+        self.driver.quit()
 
     def test_home_status_code(self):
         # sends HTTP GET request to the application
@@ -58,9 +58,9 @@ class FlaskGameUITests(unittest.TestCase):
         '''test the rendered page contains the Home, Leaderboard
             and Who's Playing text'''
 
-        driver.get("http://localhost:5000")
+        self.driver.get("http://localhost:5000")
         time.sleep(3)
-        soup = BeautifulSoup(driver.page_source,'html5lib')
+        soup = BeautifulSoup(self.driver.page_source,'html5lib')
         elements = []
         for line in soup.find('div', {'id':'navbarResponsive'}).find_all('a',
             {'class': 'nav-link'}):
@@ -71,9 +71,9 @@ class FlaskGameUITests(unittest.TestCase):
 
     def test_home_page_game_rendering(self):
         '''test the rendered page contains the answer points'''
-        driver.get("http://localhost:5000")
+        self.driver.get("http://localhost:5000")
         time.sleep(3)
-        html_tag_text = driver.find_element_by_id('answer-points').text
+        html_tag_text = self.driver.find_element_by_id('answer-points').text
         assert "points" in html_tag_text
 
     def test_leaderboard_page_names(self):
@@ -82,9 +82,9 @@ class FlaskGameUITests(unittest.TestCase):
         # collect the names, classes and song scores from the filename
         file_results = game_operations.generate_leaderboard(0)
         #test the rendered page contains the Home, Leaderboard and Who's Playing text
-        driver.get("http://localhost:5000/leaderboard")
+        self.driver.get("http://localhost:5000/leaderboard")
         time.sleep(3)
-        soup = BeautifulSoup(driver.page_source,'html5lib')
+        soup = BeautifulSoup(self.driver.page_source,'html5lib')
         elements = []
         for line in soup.find_all('div', {'class':'leaderboard-name'}):
             elements.append(line.contents[0])
@@ -101,9 +101,9 @@ class FlaskGameUITests(unittest.TestCase):
         del line_list[-1]
         time.sleep(3)
 
-        driver.get("http://localhost:5000/leaderboard")
+        self.driver.get("http://localhost:5000/leaderboard")
         time.sleep(3)
-        soup = BeautifulSoup(driver.page_source,'html5lib')
+        soup = BeautifulSoup(self.driver.page_source,'html5lib')
         elements = []
         for line in soup.find('div', {'id':'individual-song-scores2'}).find_all('li'):
             elements.append(line.contents[0].strip())
@@ -116,9 +116,9 @@ class FlaskGameUITests(unittest.TestCase):
         # collect the names, classes and song scores from the filename
         file_results = game_operations.generate_leaderboard(4)
         # test the rendered page contains the Home, Leaderboard and Who's Playing text
-        driver.get("http://localhost:5000/")
+        self.driver.get("http://localhost:5000/")
         time.sleep(3)
-        soup = BeautifulSoup(driver.page_source,'html5lib')
+        soup = BeautifulSoup(self.driver.page_source,'html5lib')
         elements = []
         for line in soup.find_all('div', {'class':'top-player-name'}):
             elements.append(line.contents[0])
@@ -133,9 +133,9 @@ class FlaskGameUITests(unittest.TestCase):
         del line_list[-1]
         time.sleep(3)
 
-        driver.get("http://localhost:5000/")
+        self.driver.get("http://localhost:5000/")
         time.sleep(3)
-        soup = BeautifulSoup(driver.page_source,'html5lib')
+        soup = BeautifulSoup(self.driver.page_source,'html5lib')
         elements = []
         for line in soup.find('div', {'id':'individual-song-scores2'}).find_all('li'):
             elements.append(line.contents[0].strip())
