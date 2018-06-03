@@ -33,13 +33,12 @@ def index():
     lyric = music.convert_srt(raw_lyric)
 
     # get a list of 4 players and songs for the top scores section
-    template_name_songs = game_operations.generate_leaderboard(4)
+    template_users_history = game_operations.generate_leaderboard(2)
 
     return render_template("index.html", page_title="Home"
                             , value=pre_canned_videoId[random_number]
                             , lyrics=lyric
-                            , names_songs=zip(template_name_songs[0]
-                            , template_name_songs[1]))
+                            , users_history=template_users_history)
 
 
 @app.route('/evaluate_answer', methods=['POST'])

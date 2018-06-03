@@ -5,6 +5,7 @@ from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup
 import time
 import game_operations
+from collections import OrderedDict
 
 class FlaskGameUITests(unittest.TestCase):
 
@@ -17,6 +18,7 @@ class FlaskGameUITests(unittest.TestCase):
         pass
 
     def setUp(self):
+        self.elements = []
         # creates a test client
         self.app = app.test_client()
         # propagate the exceptions to the test client
@@ -109,34 +111,40 @@ class FlaskGameUITests(unittest.TestCase):
             elements.append(line.contents[0].strip())
         self.assertListEqual(line_list, elements)
 
-    def test_top_players_names(self):
+    def test_index_players_names(self):
         '''test the names rendered on the home page match the names in
             the order and value from the file'''
 
-        # collect the names, classes and song scores from the filename
-        file_results = game_operations.generate_leaderboard(4)
+        # collect the names and song scores from the filename in OrderedDict
+        file_results = game_operations.generate_leaderboard(2)
+        # convert keys to a list
+        file_results_names = list(OrderedDict(file_results).keys())
+
         # test the rendered page contains the Home, Leaderboard and Who's Playing text
         self.driver.get("http://localhost:5000/")
         time.sleep(3)
         soup = BeautifulSoup(self.driver.page_source,'html5lib')
-        elements = []
-        for line in soup.find_all('div', {'class':'top-player-name'}):
-            elements.append(line.contents[0])
-        self.assertListEqual(file_results[0], elements)
+        for line in soup.find_all('div', {'class':'leaderboard-name'}):
+            self.elements.append(line.contents[0])
 
-    def test_top_players_second_name_song_scores(self):
+        self.assertListEqual(file_results_names, self.elements)
+
+    def test_index_players_second_name_song_scores(self):
         # test the second player individual songs from the file match leaderbaord page
 
         # collect the names, classes and song scores from the filename
-        file_results = game_operations.generate_leaderboard(4)
-        line_list = file_results[2][1].replace('<li>','').split('</li>')
-        del line_list[-1]
+        file_results = game_operations.generate_leaderboard(2)
+
+        # select the values for the second key as a list
+        individual_songs = list(file_results.items())
+
         time.sleep(3)
 
         self.driver.get("http://localhost:5000/")
         time.sleep(3)
         soup = BeautifulSoup(self.driver.page_source,'html5lib')
-        elements = []
+
         for line in soup.find('div', {'id':'individual-song-scores2'}).find_all('li'):
-            elements.append(line.contents[0].strip())
-        self.assertListEqual(line_list, elements)
+            self.elements.append(line.contents[0].strip())
+
+        self.assertListEqual(individual_songs[1][1], self.elements)
