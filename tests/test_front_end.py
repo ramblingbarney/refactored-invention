@@ -119,7 +119,7 @@ class FlaskGameUITests(unittest.TestCase):
             the order and value from the file'''
 
         # collect the names and song scores from the filename in OrderedDict
-        file_results = game_operations.generate_leaderboard(2)
+        file_results = game_operations.generate_leaderboard(4)
         # convert keys to a list
         file_results_names = list(OrderedDict(file_results).keys())
 
@@ -136,7 +136,7 @@ class FlaskGameUITests(unittest.TestCase):
         # test the second player individual songs from the file match leaderbaord page
 
         # collect the names, classes and song scores from the filename
-        file_results = game_operations.generate_leaderboard(2)
+        file_results = game_operations.generate_leaderboard(4)
 
         # select the values as a list
         individual_songs = list(file_results.items())

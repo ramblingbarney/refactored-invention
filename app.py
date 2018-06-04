@@ -33,7 +33,7 @@ def index():
     lyric = music.convert_srt(raw_lyric)
 
     # get a list of 4 players and songs for the top scores section
-    template_users_history = game_operations.generate_leaderboard(2)
+    template_users_history = game_operations.generate_leaderboard(4)
 
     return render_template("index.html", page_title="Home"
                             , value=pre_canned_videoId[random_number]
