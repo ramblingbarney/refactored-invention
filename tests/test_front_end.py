@@ -83,15 +83,18 @@ class FlaskGameUITests(unittest.TestCase):
 
         # collect the names, classes and song scores from the filename
         file_results = game_operations.generate_leaderboard(0)
-        #test the rendered page contains the Home, Leaderboard and Who's Playing text
+        # convert keys to a list
+        file_results_names = list(OrderedDict(file_results).keys())
+
+        # test the rendered page contains the names from the players file in the
+        # same order
         self.driver.get("http://localhost:5000/leaderboard")
         time.sleep(3)
         soup = BeautifulSoup(self.driver.page_source,'html5lib')
-        elements = []
         for line in soup.find_all('div', {'class':'leaderboard-name'}):
-            elements.append(line.contents[0])
+            self.elements.append(line.contents[0])
 
-        self.assertListEqual(file_results[0], elements)
+        self.assertListEqual(file_results_names, self.elements)
 
     def test_leaderboard_page_second_name_song_scores(self):
         '''test the second player individual songs from the
@@ -99,17 +102,17 @@ class FlaskGameUITests(unittest.TestCase):
 
         # collect the names, classes and song scores from the filename
         file_results = game_operations.generate_leaderboard(0)
-        line_list = file_results[2][1].replace('<li>','').split('</li>')
-        del line_list[-1]
+        # select the values as a list
+        individual_songs = list(file_results.items())
+
         time.sleep(3)
 
         self.driver.get("http://localhost:5000/leaderboard")
         time.sleep(3)
         soup = BeautifulSoup(self.driver.page_source,'html5lib')
-        elements = []
         for line in soup.find('div', {'id':'individual-song-scores2'}).find_all('li'):
-            elements.append(line.contents[0].strip())
-        self.assertListEqual(line_list, elements)
+            self.elements.append(line.contents[0].strip())
+        self.assertListEqual(individual_songs[1][1], self.elements)
 
     def test_index_players_names(self):
         '''test the names rendered on the home page match the names in
@@ -135,7 +138,7 @@ class FlaskGameUITests(unittest.TestCase):
         # collect the names, classes and song scores from the filename
         file_results = game_operations.generate_leaderboard(2)
 
-        # select the values for the second key as a list
+        # select the values as a list
         individual_songs = list(file_results.items())
 
         time.sleep(3)
