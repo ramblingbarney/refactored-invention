@@ -62,7 +62,7 @@ def create_list_all_players_names_logged_in(all_game_players):
         if ( value == 1 ):
 
             ordered_logged_in_player_names.append(key)
-            
+
     return ordered_logged_in_player_names
 
 def create_song_list_each_name(names):
@@ -143,7 +143,7 @@ def generate_logged_in_leaderboard(leaderboard_length):
     # create a list of each players songs in the same order as 'names_in_order'
     songs_scores_per_player_order = create_song_list_each_name(names_in_order)
 
-    if ( len(list(all_players.values()) ) == 0 ):
+    if ( len(names_in_order)  == 0 ):
         # return placeholders if no players
         return OrderedDict([('Log in to join the fun'
                         , ['No Completed Song Scores'])])
