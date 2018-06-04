@@ -153,7 +153,7 @@ class FlaskGameUITests(unittest.TestCase):
         self.assertListEqual(individual_songs[1][1], self.elements)
 
     def test_all_players_page_names(self):
-        '''test the names rendered on the leaderboard page match the names in the order and value from the file'''
+        '''test the names rendered on the All Players page match the names in the order and value from the file'''
 
         # collect the names, classes and song scores from the filename
         file_results = game_operations.generate_logged_in_leaderboard(0)
