@@ -66,8 +66,11 @@ def update_score():
         # load JSON data from request
         data = json.loads(request.data)
 
+        # Update players file with username, total score and zero to denote
+        # user is logged out
+
         file_operations.update_file('data/players.txt', data['writeData'][0]
-                                    , data['writeData'][1])
+                                    , data['writeData'][1] + ',0')
 
         response = app.response_class(
             status=200,
@@ -97,6 +100,8 @@ def login():
         # load JSON data from request
         data = json.loads(request.data)
 
+
+        # search for user's player record, returning a single line '0' switch
         player_record = file_operations.search_from_file('data/players.txt'
                     , data['userName'],0)
 
@@ -104,10 +109,17 @@ def login():
 
             username_score = player_record.split(',')
 
+            # update players file with username, total score, 1 switch denotes
+            # user is logged in
+            file_operations.update_file('data/players.txt', username_score[0]
+                                , username_score[1] + ',1')
+
         else:
 
+            # write new user to file username, 0 total score and 1 switch
+            # denotes user is logged in
             file_operations.write_to_file('data/players.txt'
-                , data['userName'] + ',0')
+                , data['userName'] + ',0' + ',1')
 
             username_score = [data['userName'], 0]
 
