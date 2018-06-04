@@ -1,7 +1,6 @@
 from app import app
 import unittest
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup
 import time
 import game_operations
@@ -27,6 +26,8 @@ class FlaskGameUITests(unittest.TestCase):
         self.driver = webdriver.PhantomJS(executable_path='/usr/local/bin/phantomjs'
         , port=9134, service_args=['--ignore-ssl-errors=true'
         , '--ssl-protocol=tlsv1'])
+        # set the browner window size
+        self.driver.set_window_size(1079, 668)
 
     def tearDown(self):
         pass
@@ -150,3 +151,21 @@ class FlaskGameUITests(unittest.TestCase):
             self.elements.append(line.contents[0].strip())
 
         self.assertListEqual(individual_songs[1][1], self.elements)
+
+    def test_all_players_page_names(self):
+        '''test the names rendered on the leaderboard page match the names in the order and value from the file'''
+
+        # collect the names, classes and song scores from the filename
+        file_results = game_operations.generate_logged_in_leaderboard(0)
+        # convert keys to a list
+        file_results_names = list(OrderedDict(file_results).keys())
+
+        # test the rendered page contains the names from the players file in the
+        # same order
+        self.driver.get("http://localhost:5000/all_players")
+        time.sleep(3)
+        soup = BeautifulSoup(self.driver.page_source,'html5lib')
+        for line in soup.find_all('div', {'class':'leaderboard-name'}):
+            self.elements.append(line.contents[0])
+
+        self.assertListEqual(file_results_names, self.elements)

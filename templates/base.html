@@ -54,9 +54,9 @@
               <a class="nav-link" href="{{ url_for('all_players') }}">Who's Playing</a>
             </li>
               <div class="input-group input-group-sm py-md-1 w-25">
-                <input type="text" class="form-control" placeholder="" aria-label="username login" id="login-name" aria-describedby="basic-addon2" onsubmit="event.preventDefault();">
+                <input type="text" id="login-name" class="form-control" placeholder="" aria-label="username login" aria-describedby="basic-addon2" onsubmit="event.preventDefault();">
                 <div class="input-group-append">
-                  <button class="btn btn-outline-secondary" type="button" onclick="login('http://127.0.0.1:5000/' + 'login',document.getElementById('login-name').value);" >Login</button>
+                  <button class="btn btn-outline-secondary" id="login-btn" type="button" onclick="login('http://127.0.0.1:5000/' + 'login',document.getElementById('login-name').value);" >Login</button>
                 </div>
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary" type="button" onclick="logOut();" >Logout</button>

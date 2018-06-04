@@ -134,7 +134,10 @@ def login():
 @app.route('/all_players')
 def all_players():
 
-    return render_template("all_players.html")
+    template_users_history = game_operations.generate_logged_in_leaderboard(0)
+
+    return render_template("all_players.html"
+                            , users_history=template_users_history)
 
 
 @app.route('/leaderboard')

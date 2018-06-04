@@ -84,6 +84,7 @@ You will need the following things properly installed on your computer.
     * Enter a username in input box and click 'Login', verify the navigation bar shows the username and points for the username.
     * Refresh the page and verify the currently logged in user is still shown in the navigation bar.
     * Click 'Logout' and verify the navigation bar no longer shows a username and points.
+    * When the user is logged in, the players.txt file will have a final column with a value of 1 and 0 when logged out, to check ```cat data/players.txt```
 
   * Logged in users Total Score and Total Song Score
     * Enter username in login box, click login, start song stream and enter an answer, it will be evaluated and a score applied which will then be shown in the 'Total Song Points' and the user's points in the navigation bar.
@@ -92,6 +93,12 @@ You will need the following things properly installed on your computer.
   * Leaderboard
     * execute this command 'cat data/players.txt' and ensure the order left to right reflects the highest to lowest player scores shown
     * execute this command 'cat data/song_scores.txt' and ensure the songs listed with the username in the first column are correctly assigned to the user 'View Scores'
+
+  * Who's Playing (All Players)
+    * execute this command 'cat data/players.txt' and ensure the order left to right reflects the highest to lowest player scores shown for only those lines ending with a '1'
+    * execute this command 'cat data/song_scores.txt' and ensure the songs listed with the username in the first column are correctly assigned to the user 'View Scores'
+
+
 
   * Cookie Warning
     * Disable cookies in the browser settings and then navigate to the index, all players and leaderboard pages and check to see if working message is shown at the top
