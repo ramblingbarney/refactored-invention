@@ -63,13 +63,12 @@ class FlaskGameUITests(unittest.TestCase):
         self.driver.get("http://localhost:5000")
         time.sleep(3)
         soup = BeautifulSoup(self.driver.page_source,'html5lib')
-        elements = []
         for line in soup.find('div', {'id':'navbarResponsive'}).find_all('a',
             {'class': 'nav-link'}):
-            elements.append(line.contents[0])
-        self.assertIn('Home',elements)
-        self.assertIn('Leaderboard',elements)
-        self.assertIn("Who's Playing",elements)
+            self.elements.append(line.contents[0])
+        self.assertIn('Home',self.elements)
+        self.assertIn('Leaderboard',self.elements)
+        self.assertIn("Who's Playing",self.elements)
 
     def test_home_page_game_rendering(self):
         '''test the rendered page contains the answer points'''
