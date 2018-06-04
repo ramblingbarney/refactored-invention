@@ -47,7 +47,7 @@ def evaluate_answer():
         # load JSON data from request
         data = json.loads(request.data)
 
-        score = str(game_operations.levenstein_score(data['lyricAnswer']
+        score = str(game_operations.levenshtein_score(data['lyricAnswer']
                     , data['stringToBeEvaluated']))
 
         answer_score = {"score": score}
