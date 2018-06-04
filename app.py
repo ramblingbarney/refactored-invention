@@ -97,12 +97,12 @@ def login():
         # load JSON data from request
         data = json.loads(request.data)
 
-        result = file_operations.search_from_file('data/players.txt'
+        player_record = file_operations.search_from_file('data/players.txt'
                     , data['userName'],0)
 
-        if (result):
+        if (player_record):
 
-            username_score = result.split(',')
+            username_score = player_record.split(',')
 
         else:
 
