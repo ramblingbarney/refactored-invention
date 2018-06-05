@@ -36,7 +36,7 @@ You will need the following things properly installed on your computer.
 * As a user I want to see the top 4 players with scores from left to right using a different colour.
 
   * Example acceptance criteria:
-    *  Each player that has created a login and scored at least one point will be shown
+    *  Each player that has created a login will be shown
     *  Each player that has completed a song with a sore will have it listed below their name when you click 'View Scores'
 
 ### Home Page User Stories
@@ -60,23 +60,32 @@ You will need the following things properly installed on your computer.
   * Example acceptance criteria:
     * Warning message is shown asking user to enable cookies
 
+* As a user I want to see a list of all players with scores from left to right using a different colour.
+  * Example acceptance criteria:
+    *  Each player that has created a login will be shown
+    *  Each player that has completed a song with a sore will have it listed below their name when you click 'View Scores'
+
 ### Leaderboard Page User Stories
 
 * As a user I want to see a list of all players with scores from left to right using a different colour.
-
   * Example acceptance criteria:
-    *  Each player that has created a login and scored at least one point will be shown
+    *  Each player that has created a login will be shown
     *  Each player that has completed a song with a sore will have it listed below their name when you click 'View Scores'
 
 * As a user I want to see a warning message on the page if cookies are disabled in the browser
-    * Example acceptance criteria:
+  * Example acceptance criteria:
     * Warning message is shown asking user to enable cookies
 
 ### All Players User Stories
 
 * As a user I want to see a warning message on the page if cookies are disabled in the browser
-    * Example acceptance criteria:
+  * Example acceptance criteria:
     * Warning message is shown asking user to enable cookies
+
+* As a user I want to see a list of all players with scores from left to right using a different colour who are currently logged in.
+  * Example acceptance criteria:
+    *  Each player that is logged in will be shown
+    *  Each player that has completed a song with a sore will have it listed below their name when you click 'View Scores'
 
 ## Manual Testing
 
@@ -97,8 +106,6 @@ You will need the following things properly installed on your computer.
   * Who's Playing (All Players)
     * execute this command 'cat data/players.txt' and ensure the order left to right reflects the highest to lowest player scores shown for only those lines ending with a '1'
     * execute this command 'cat data/song_scores.txt' and ensure the songs listed with the username in the first column are correctly assigned to the user 'View Scores'
-
-
 
   * Cookie Warning
     * Disable cookies in the browser settings and then navigate to the index, all players and leaderboard pages and check to see if working message is shown at the top
