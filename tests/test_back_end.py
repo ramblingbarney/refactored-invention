@@ -3,18 +3,22 @@ import music
 from random import randint, random
 import json
 
+# List of videos which lyrics are provided by MusixMatch
+pre_canned_videoId = ['YQHsXMglC9A', '0-EF60neguk', 'MN3x-kAbgFU'
+                    , 'YR5ApYxkU-U', 'n4RjJKxsamQ', 'raNGeq3_DtM'
+                    , 'TvnYmWpD_T8', 'x5GuBa4Bbnw', '4YR_Mft7yIM'
+                    , 'JJAXwAaA2w', 'u1xrNaTO1bI', 'jhdFe3evXpk'
+                    , 'YQHsXMglC9A']
+
+
 class TestMusic(unittest.TestCase):
 
     '''Test to see if we can generate a valid json lyric stream'''
 
     def test_video_lyric_json_steam(self):
-
-        # List of videos which lyrics are provided by MusixMatch
-        pre_canned_videoId = ['YQHsXMglC9A','0-EF60neguk','MN3x-kAbgFU','YR5ApYxkU-U','n4RjJKxsamQ','raNGeq3_DtM','TvnYmWpD_T8','x5GuBa4Bbnw','4YR_Mft7yIM','JJAXwAaA2w','u1xrNaTO1bI','jhdFe3evXpk','YQHsXMglC9A']
-
         # generage a random number to select a video from the precanned
         # list of known MusixMatch provided lyrics
-        randomNumber = randint(0,len(pre_canned_videoId)- 1)
+        randomNumber = randint(0, len(pre_canned_videoId) - 1)
 
         def is_json(myjson):
             try:
@@ -24,31 +28,28 @@ class TestMusic(unittest.TestCase):
             return True
 
         # get unprocessed lyrics stream
-        rawlyric = music.fetch_srt('xxx',pre_canned_videoId[randomNumber])
+        rawlyric = music.fetch_srt('xxx', pre_canned_videoId[randomNumber])
 
         # process lyric stream and format to json
         lyric = music.convert_srt(rawlyric)
 
-        self.assertEqual(is_json(lyric),True)
+        self.assertEqual(is_json(lyric), True)
 
     def test_video_lyric_json_lyrics(self):
 
         '''Test to see if we the generated lyric streams
             start and next end timestamp match'''
 
-        # List of videos which lyrics are provided by MusixMatch
-        pre_canned_videoId = ['YQHsXMglC9A','0-EF60neguk','MN3x-kAbgFU','YR5ApYxkU-U','n4RjJKxsamQ','raNGeq3_DtM','TvnYmWpD_T8','x5GuBa4Bbnw','4YR_Mft7yIM','JJAXwAaA2w','u1xrNaTO1bI','jhdFe3evXpk','YQHsXMglC9A']
-
         # generage a random number to select a video from the
         # precanned list of known MusixMatch provided lyrics
-        randomNumber = randint(0,len(pre_canned_videoId)- 1)
+        randomNumber = randint(0, len(pre_canned_videoId) - 1)
 
         start_times = []
 
         end_times = []
 
         # get unprocessed lyrics stream
-        rawlyric = music.fetch_srt('xxx',pre_canned_videoId[randomNumber])
+        rawlyric = music.fetch_srt('xxx', pre_canned_videoId[randomNumber])
 
         # process lyric stream and format to json
         lyric = json.loads(music.convert_srt(rawlyric))
@@ -70,21 +71,19 @@ class TestMusic(unittest.TestCase):
 
             return set(startTimes) == set(endTimes)
 
-        self.assertEqual(is_full_time_sequence(),True)
+        self.assertEqual(is_full_time_sequence(), True)
 
     def test_video_lyrics_contain_strings(self):
+
         '''Test to see if we the generated lyric streams
             contain song lyrics'''
 
-        # List of videos which lyrics are provided by MusixMatch
-        pre_canned_videoId = ['YQHsXMglC9A','0-EF60neguk','MN3x-kAbgFU','YR5ApYxkU-U','n4RjJKxsamQ','raNGeq3_DtM','TvnYmWpD_T8','x5GuBa4Bbnw','4YR_Mft7yIM','JJAXwAaA2w','u1xrNaTO1bI','jhdFe3evXpk','YQHsXMglC9A']
-
         # generage a random number to select a video from the
         # precanned list of known MusixMatch provided lyrics
-        randomNumber = randint(0,len(pre_canned_videoId)- 1)
+        randomNumber = randint(0, len(pre_canned_videoId) - 1)
 
         # get unprocessed lyrics stream
-        rawlyric = music.fetch_srt('xxx',pre_canned_videoId[randomNumber])
+        rawlyric = music.fetch_srt('xxx', pre_canned_videoId[randomNumber])
 
         # process lyric stream and format to json
         lyric = json.loads(music.convert_srt(rawlyric))
@@ -98,4 +97,4 @@ class TestMusic(unittest.TestCase):
                     return False
             return True
 
-        self.assertEqual(is_lyric_sequence(),True)
+        self.assertEqual(is_lyric_sequence(), True)
