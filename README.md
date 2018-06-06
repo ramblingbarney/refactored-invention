@@ -110,11 +110,15 @@ You will need the following things properly installed on your computer.
   * Cookie Warning
     * Disable cookies in the browser settings and then navigate to the index, all players and leaderboard pages and check to see if working message is shown at the top
 
+  * Force timeout for index page
+    * Turn off the internet connection and refresh the index page.  Check the 504 page is shown with the text "Whoops  We broke it, lets try again"
+
 ## Known Issues
 
   * On small screens the login/logout text box will reduce in width so the text cannot been seen and the logout button can be forced to the next line in some instances.
   * When the login input box is empty clicking login will log in the last user
-  * The API call to musixmatch fails causing the error 504 page to be shown which will fail the test suite as well.
+  * The API call to musixmatch fails/timesout causing the error 504 page to be shown which will fail the test suite as well.
+  * The video may not load so the page is rendered but the video iframe has a failed error message
   * PouchDB is not encrypted so will be accessable to all in the browser
   * Flask passes variable data to the template which is displayed in page source
   * Clicking play on the video will play in full screen on iphone mobile browser with prevents the user entering the answers

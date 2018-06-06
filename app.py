@@ -1,6 +1,5 @@
 import os
 import sys
-import logging
 from flask import Flask, render_template, redirect, request, jsonify
 import json
 import requests
@@ -28,18 +27,22 @@ def index():
 
     random_number = randint(0, len(pre_canned_videoId) - 1)
 
-    raw_lyric = music.fetch_srt('xxx', pre_canned_videoId[random_number])
+    try:
 
-    lyric = music.convert_srt(raw_lyric)
+        raw_lyric = music.fetch_srt('xxx', pre_canned_videoId[random_number])
 
-    # get a list of 4 players and songs for the top scores section
-    template_users_history = game_operations.generate_leaderboard(4)
+        lyric = music.convert_srt(raw_lyric)
 
-    return render_template("index.html", page_title="Home"
+        # get a list of 4 players and songs for the top scores section
+        template_users_history = game_operations.generate_leaderboard(4)
+
+        return render_template("index.html", page_title="Home"
                             , value=pre_canned_videoId[random_number]
                             , lyrics=lyric
                             , users_history=template_users_history)
 
+    except Exception as e:
+        return render_template("504.html", error = str(e))
 
 @app.route('/evaluate_answer', methods=['POST'])
 def evaluate_answer():
@@ -153,11 +156,10 @@ def leaderboard():
     return render_template("leaderboard.html"
                             , users_history=template_users_history)
 
-
-@app.errorhandler(504)
-def gateway_time_out(e):
-    return render_template('504.html'), 504
-
+@app.errorhandler(Exception)
+def unhandled_exception(e):
+    app.logger.error('Unhandled Exception: %s', (e))
+    return render_template('404.html'), 404
 
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'),

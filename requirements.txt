@@ -1,3 +1,4 @@
+aniso8601==3.0.0
 beautifulsoup4==4.6.0
 blinker==1.4
 certifi==2018.4.16
@@ -13,9 +14,11 @@ html5lib==1.0.1
 idna==2.6
 itsdangerous==0.24
 Jinja2==2.10
+jsonschema==2.6.0
 MarkupSafe==1.0
 pycodestyle==2.4.0
 python-Levenshtein==0.12.0
+pytz==2018.4
 requests==2.18.4
 selenium==3.12.0
 six==1.11.0
