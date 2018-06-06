@@ -34,24 +34,21 @@ class FlaskGameUITests(unittest.TestCase):
         self.driver.quit()
 
     def test_home_status_code(self):
-        # sends HTTP GET request to the application
-        # on the specified path
+        ''' Test index/home page route'''
         result = self.app.get('/')
 
         # assert the status code of the response
         self.assertEqual(result.status_code, 200)
 
     def test_leaderboard_status_code(self):
-        # sends HTTP GET request to the application
-        # on the specified path
+        ''' Test leaderboard page route'''
         result = self.app.get('/leaderboard')
 
         # assert the status code of the response
         self.assertEqual(result.status_code, 200)
 
     def test_whos_playing_status_code(self):
-        # sends HTTP GET request to the application
-        # on the specified path
+        ''' Test all_players page route'''
         result = self.app.get('/all_players')
 
         # assert the status code of the response
@@ -79,15 +76,14 @@ class FlaskGameUITests(unittest.TestCase):
         assert "points" in html_tag_text
 
     def test_leaderboard_page_names(self):
-        '''test the names rendered on the leaderboard page match the names in the order and value from the file'''
+        '''test the names rendered on the leaderboard page match the names
+            in the order and value from the file'''
 
         # collect the names, classes and song scores from the filename
         file_results = game_operations.generate_leaderboard(0)
         # convert keys to a list
         file_results_names = list(OrderedDict(file_results).keys())
 
-        # test the rendered page contains the names from the players file in the
-        # same order
         self.driver.get("http://localhost:5000/leaderboard")
         time.sleep(3)
         soup = BeautifulSoup(self.driver.page_source,'html5lib')
@@ -115,7 +111,7 @@ class FlaskGameUITests(unittest.TestCase):
         self.assertListEqual(individual_songs[1][1], self.elements)
 
     def test_index_players_names(self):
-        '''test the names rendered on the home page match the names in
+        '''test the names rendered on the index/home page match the names in
             the order and value from the file'''
 
         # collect the names and song scores from the filename in OrderedDict
@@ -123,7 +119,6 @@ class FlaskGameUITests(unittest.TestCase):
         # convert keys to a list
         file_results_names = list(OrderedDict(file_results).keys())
 
-        # test the rendered page contains the Home, Leaderboard and Who's Playing text
         self.driver.get("http://localhost:5000/")
         time.sleep(3)
         soup = BeautifulSoup(self.driver.page_source,'html5lib')
@@ -133,7 +128,8 @@ class FlaskGameUITests(unittest.TestCase):
         self.assertListEqual(file_results_names, self.elements)
 
     def test_index_players_second_name_song_scores(self):
-        # test the second player individual songs from the file match leaderbaord page
+        '''test the second player individual songs from the file
+            match leaderbaord page'''
 
         # collect the names, classes and song scores from the filename
         file_results = game_operations.generate_leaderboard(4)
@@ -153,15 +149,14 @@ class FlaskGameUITests(unittest.TestCase):
         self.assertListEqual(individual_songs[1][1], self.elements)
 
     def test_all_players_page_names(self):
-        '''test the names rendered on the All Players page match the names in the order and value from the file'''
+        '''test the names rendered on the All Players page match the names
+            in the order and value from the file'''
 
         # collect the names, classes and song scores from the filename
         file_results = game_operations.generate_logged_in_leaderboard(0)
         # convert keys to a list
         file_results_names = list(OrderedDict(file_results).keys())
 
-        # test the rendered page contains the names from the players file in the
-        # same order
         self.driver.get("http://localhost:5000/all_players")
         time.sleep(3)
         soup = BeautifulSoup(self.driver.page_source,'html5lib')

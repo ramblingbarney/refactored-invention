@@ -5,15 +5,15 @@ import json
 
 class TestMusic(unittest.TestCase):
 
-    '''
-    Our test suite for Guess the next line
-    '''
+    '''Test to see if we can generate a valid json lyric stream'''
+
     def test_video_lyric_json_steam(self):
 
         # List of videos which lyrics are provided by MusixMatch
         pre_canned_videoId = ['YQHsXMglC9A','0-EF60neguk','MN3x-kAbgFU','YR5ApYxkU-U','n4RjJKxsamQ','raNGeq3_DtM','TvnYmWpD_T8','x5GuBa4Bbnw','4YR_Mft7yIM','JJAXwAaA2w','u1xrNaTO1bI','jhdFe3evXpk','YQHsXMglC9A']
 
-        # generage a random number to select a video from the precanned list of known MusixMatch provided lyrics
+        # generage a random number to select a video from the precanned
+        # list of known MusixMatch provided lyrics
         randomNumber = randint(0,len(pre_canned_videoId)- 1)
 
         def is_json(myjson):
@@ -22,10 +22,6 @@ class TestMusic(unittest.TestCase):
             except Exception as err:
                 return False
             return True
-
-        '''
-        Test to see if we can generate a valid json lyric stream
-        '''
 
         # get unprocessed lyrics stream
         rawlyric = music.fetch_srt('xxx',pre_canned_videoId[randomNumber])
@@ -37,19 +33,19 @@ class TestMusic(unittest.TestCase):
 
     def test_video_lyric_json_lyrics(self):
 
+        '''Test to see if we the generated lyric streams
+            start and next end timestamp match'''
+
         # List of videos which lyrics are provided by MusixMatch
         pre_canned_videoId = ['YQHsXMglC9A','0-EF60neguk','MN3x-kAbgFU','YR5ApYxkU-U','n4RjJKxsamQ','raNGeq3_DtM','TvnYmWpD_T8','x5GuBa4Bbnw','4YR_Mft7yIM','JJAXwAaA2w','u1xrNaTO1bI','jhdFe3evXpk','YQHsXMglC9A']
 
-        # generage a random number to select a video from the precanned list of known MusixMatch provided lyrics
+        # generage a random number to select a video from the
+        # precanned list of known MusixMatch provided lyrics
         randomNumber = randint(0,len(pre_canned_videoId)- 1)
 
         start_times = []
 
         end_times = []
-
-        '''
-        Test to see if we the generated lyric streams start and next end timestamp match
-        '''
 
         # get unprocessed lyrics stream
         rawlyric = music.fetch_srt('xxx',pre_canned_videoId[randomNumber])
@@ -77,16 +73,15 @@ class TestMusic(unittest.TestCase):
         self.assertEqual(is_full_time_sequence(),True)
 
     def test_video_lyrics_contain_strings(self):
+        '''Test to see if we the generated lyric streams
+            contain song lyrics'''
 
         # List of videos which lyrics are provided by MusixMatch
         pre_canned_videoId = ['YQHsXMglC9A','0-EF60neguk','MN3x-kAbgFU','YR5ApYxkU-U','n4RjJKxsamQ','raNGeq3_DtM','TvnYmWpD_T8','x5GuBa4Bbnw','4YR_Mft7yIM','JJAXwAaA2w','u1xrNaTO1bI','jhdFe3evXpk','YQHsXMglC9A']
 
-        # generage a random number to select a video from the precanned list of known MusixMatch provided lyrics
+        # generage a random number to select a video from the
+        # precanned list of known MusixMatch provided lyrics
         randomNumber = randint(0,len(pre_canned_videoId)- 1)
-
-        '''
-        Test to see if we the generated lyric streams contain song lyrics
-        '''
 
         # get unprocessed lyrics stream
         rawlyric = music.fetch_srt('xxx',pre_canned_videoId[randomNumber])
