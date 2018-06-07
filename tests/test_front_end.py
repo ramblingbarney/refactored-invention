@@ -166,11 +166,13 @@ class FlaskGameUITests(unittest.TestCase):
         self.assertListEqual(file_results_names, self.elements)
 
     def test_pagenotfound_statuscode(self):
+        '''test the 404 status code when page is not found'''
         result = self.app.get('/missing-page')
 
         self.assertEqual(result.status_code, 404)
 
     def test_pagenotfound_data(self):
+        '''test the 404 page content is shown when page is not found'''
         result = self.app.get('/missing-page')
 
         self.assertIn(b'We broke it, that page is missing', result.data)
