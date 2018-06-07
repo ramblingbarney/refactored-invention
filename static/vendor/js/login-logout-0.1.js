@@ -34,54 +34,56 @@ function getCookie(name) {
 }
 
 // login request to the login app route
-
 function login(url,inputName) {
 
-  // The data we are going to send in our request
+  // check inputName is a valid string
+  if ( inputName || /^[a-z]+$/.test(inputName) || inputName.length.trim() > 0 ) {
+    // The data we are going to send in our request
 
-  let data = {
-    userName: inputName
-  }
+    let data = {
+      userName: inputName
+    }
 
-  // The parameters we are gonna pass to the fetch function
+    // The parameters we are gonna pass to the fetch function
 
-  let fetchData = {
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers: new Headers()
-  }
+    let fetchData = {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: new Headers()
+    }
 
-  fetch(url,fetchData)
-    .then(
-      function(response) {
-        if (response.status !== 200) {
-          console.log('Looks like there was a problem. Status Code: ' +
-            response.status);
-          return;
-        }
-
-        // Examine the text in the response
-        response.json().then(function(data) {
-
-          if (data){
-
-            // store the response data values in the cookie
-            setCookie('user_name', data.user_name);
-            setCookie('total_score', data.total_score);
-
-            // Update the UI with values stored in the cookie
-            logInUpdateUI();
-
+    fetch(url,fetchData)
+      .then(
+        function(response) {
+          if (response.status !== 200) {
+            console.log('Looks like there was a problem. Status Code: ' +
+              response.status);
+            return;
           }
 
+          // Examine the text in the response
+          response.json().then(function(data) {
+
+            if (data){
+
+              // store the response data values in the cookie
+              setCookie('user_name', data.user_name);
+              setCookie('total_score', data.total_score);
+
+              // Update the UI with values stored in the cookie
+              logInUpdateUI();
+
+            }
 
 
-        });
-      }
-    )
-    .catch(function(err) {
-      console.log('Fetch Error :-S', err);
-    });
+
+          });
+        }
+      )
+      .catch(function(err) {
+        console.log('Fetch Error :-S', err);
+      });
+  }
 }
 
 function logInUpdateUI() {
