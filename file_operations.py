@@ -1,11 +1,13 @@
 import os
 import enum
 
+
 class SEARCH_TYPE(enum.Enum):
     LINEAR = 0
     PARALLEL = 1
 
-def search_from_file(filename, search_term,search_type):
+
+def search_from_file(filename, search_term, search_type):
     '''Handle the process of searching for data in a file'''
     with open(filename, "r") as searchfile:
         # returns full line of first instance of search term
@@ -21,6 +23,7 @@ def search_from_file(filename, search_term,search_type):
                     file_lines[num] = line.rstrip()
             return file_lines if any(file_lines.values()) else None
 
+
 def read_from_file(filename):
     '''Handle the process of reading data from a file'''
     file_lines = dict()
@@ -28,6 +31,7 @@ def read_from_file(filename):
         for num, line in enumerate(readfile, 0):
             file_lines[num] = line.rstrip()
         return file_lines
+
 
 def update_file(filename, update_term, write_value):
     '''Handle the process of updating data in a file'''

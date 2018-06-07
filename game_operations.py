@@ -65,6 +65,7 @@ def create_list_all_players_names_logged_in(all_game_players):
 
     return ordered_logged_in_player_names
 
+
 def create_song_list_each_name(names):
 
     '''create a list of songs and scores per name'''
@@ -80,7 +81,7 @@ def create_song_list_each_name(names):
         # select all songs by person, if no songs 'None' is returned
         # 'first' returns the first result, 'all' returns all results
         raw_result = file_operations.search_from_file(
-                    'data/song_scores.txt', name,1)
+                    'data/song_scores.txt', name, 1)
 
         if ( raw_result is not None ):
 
