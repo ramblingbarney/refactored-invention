@@ -76,6 +76,7 @@ class FlaskGameUITests(unittest.TestCase):
         time.sleep(3)
         html_tag_text = self.driver.find_element_by_id('answer-points').text
         assert "points" in html_tag_text
+        self.assertIn('points', html_tag_text)
 
     def test_leaderboard_page_names(self):
         '''test the names rendered on the leaderboard page match the names
