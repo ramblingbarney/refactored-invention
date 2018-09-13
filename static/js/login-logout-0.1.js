@@ -7,10 +7,10 @@ var expired = new Date(today.getTime()); // plus 30 days
 
 window.onload = function() {
 
-  if (getCookie('user_name')) {
+  if (getCookieName('user_name')) {
 
-    document.getElementById( "player-name" ).innerText = getCookie('user_name');
-    document.getElementById( "total-points" ).innerText = getCookie('total_score');
+    document.getElementById( "player-name" ).innerText = getCookieName('user_name');
+    document.getElementById( "total-points" ).innerText = getCookieScore('total_score');
 
   }
 
@@ -26,11 +26,17 @@ function deleteCookie(name) {
   document.cookie=name + "=null; path=/; expires=" + expired.toGMTString();
 }
 
-//get cookie value
-function getCookie(name) {
+//get cookie value Name
+function getCookieName(name) {
     var re = new RegExp(name + "=([^;]+)");
     var value = re.exec(document.cookie);
     return (value != null) ? unescape(value[1]) : null;
+}
+//get cookie value Score
+function getCookieScore(name) {
+    var re = new RegExp(name + "=([^;]+)");
+    var value = re.exec(document.cookie);
+    return (value != null) ? unescape(value[1]) : 0;
 }
 
 // login request to the login app route
@@ -89,9 +95,9 @@ function login(url,inputName) {
 function logInUpdateUI() {
 
   // display username in the nav bar
-  document.getElementById( "player-name" ).innerText = getCookie('user_name');
+  document.getElementById( "player-name" ).innerText = getCookieName('user_name');
   // display user score in the nav bar
-  document.getElementById( "total-points" ).innerText = getCookie('total_score');
+  document.getElementById( "total-points" ).innerText = getCookieScore('total_score');
   // remove username from the login input box
   document.getElementById( "login-name" ).value = "";
 
@@ -108,7 +114,7 @@ function logOutUpdateUI(){
 function logOut() {
 
   // store users total score in file
-  writeOutDataToFile('/update_score',[getCookie('user_name'),getCookie('total_score'),0]);
+  writeOutDataToFile('/update_score',[getCookieName('user_name'),getCookieScore('total_score'),0]);
   // delete user's username from the users cookie
   deleteCookie('user_name');
   // delete user's total score from the users cookie
