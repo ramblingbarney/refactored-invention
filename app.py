@@ -162,5 +162,4 @@ def unhandled_exception(e):
     return render_template('404.html'), 404
 
 if __name__ == '__main__':
-    app.run(host=os.environ.get('IP'),
-            debug=True)
+    app.run(host=os.environ.get('IP'), port=os.environ['PORT'], debug=True)
