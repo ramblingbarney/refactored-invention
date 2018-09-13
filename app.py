@@ -127,10 +127,12 @@ def login():
             username_score = [data['userName'], 0]
 
         response = app.response_class(
-            response=json.dumps({'user_name': username_score[0]
-                                , 'total_score': username_score[1]}), status=200
-                                , mimetype='application/json')
+                    response=json.dumps({'user_name': username_score[0]
+                                        , 'total_score': username_score[1]})
+                    , status=200
+                    , mimetype='application/json')
 
+        response.headers['Access-Control-Allow-Origin'] = '*'
         return response
 
 
@@ -162,5 +164,4 @@ def unhandled_exception(e):
     return render_template('404.html'), 404
 
 if __name__ == '__main__':
-    app.run(host=os.environ.get('IP'),
-            debug=True)
+    app.run(host=os.environ.get('IP'), debug=True)
