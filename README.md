@@ -117,12 +117,14 @@ You will need the following things properly installed on your computer.
 
   * On small screens the login/logout text box will reduce in width so the text cannot been seen and the logout button can be forced to the next line in some instances.
   * When the login input box is empty clicking login will log in the last user
+  * On Android & iOS mobile devices the login will not work, no error is thrown but the page will not show a user logged in
+  * After login a page refresh is required to update the UI, the refresh triggers the getCookieName function which updates the UI
+  * The login route has response headers set to response.headers['Access-Control-Allow-Origin'] = * to circumvent the browser COR security check
   * The API call to musixmatch fails/timesout causing the error 504 page to be shown which will fail the test suite as well.
   * The video may not load so the page is rendered but the video iframe has a failed error message
   * PouchDB is not encrypted so will be accessable to all in the browser
   * Flask passes variable data to the template which is displayed in page source
   * Clicking play on the video will play in full screen on iphone mobile browser with prevents the user entering the answers
-  * On Android & iOS mobile devices the login will not work, no error is thrown but the page will not show a user logged in
   * The game will not evaluate answers on Android 8 devices using the chrome browser, the game will operate as expected on Android 7 devices using the chrome browser
 
 
