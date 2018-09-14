@@ -130,7 +130,7 @@ def login():
             response=json.dumps({'user_name': username_score[0]
                                 , 'total_score': username_score[1]}), status=200
                                 , mimetype='application/json')
-        response.headers['Access-Control-Allow-Origin'] = os.environ['CURRENT_HOST']
+        response.headers['Access-Control-Allow-Origin'] = '*'
         return response
 
 
