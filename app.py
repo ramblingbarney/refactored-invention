@@ -7,9 +7,12 @@ import music
 import file_operations
 import game_operations
 from random import randint, random
+from flask_cors import CORS
 
 app = Flask(__name__)
 app.secret_key = 'aEP#gtR}isb2vG*={o-ui_WR6X9*<72NCe8CN7Ej6fMAyIOIlr'
+
+cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 # list of video ids that have lyrics provided by musixmatch
 pre_canned_videoId = ['YQHsXMglC9A', '0-EF60neguk', 'MN3x-kAbgFU'
