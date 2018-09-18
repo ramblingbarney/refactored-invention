@@ -11,8 +11,9 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 app.secret_key = 'aEP#gtR}isb2vG*={o-ui_WR6X9*<72NCe8CN7Ej6fMAyIOIlr'
+app.config['CORS_HEADERS'] = 'Content-Type'
 
-cors = CORS(app, resources={r"/*": {"origins": "*"}})
+cors = CORS(app, resources={r"/*": {"origins": "guess-the-next-line.herokuapp.com"}})
 
 # list of video ids that have lyrics provided by musixmatch
 pre_canned_videoId = ['YQHsXMglC9A', '0-EF60neguk', 'MN3x-kAbgFU'
@@ -101,6 +102,7 @@ def song_total_score():
 
 
 @app.route('/login', methods=['POST'])
+@cross_origin(origin='guess-the-next-line.herokuapp.com',headers=['Content- Type','Authorization'])
 def login():
     if request.method == "POST":
         # load JSON data from request
