@@ -56,7 +56,7 @@
               <div class="input-group input-group-sm py-md-1 w-25">
                 <input type="text" id="login-name" class="form-control" placeholder="" aria-label="username login" aria-describedby="basic-addon2" onsubmit="event.preventDefault();">
                 <div class="input-group-append">
-                  <button class="btn btn-outline-secondary" id="login-btn" type="button" onclick="login('http://127.0.0.1:5000/' + 'login',document.getElementById('login-name').value);" >Login</button>
+                  <button class="btn btn-outline-secondary" id="login-btn" type="button" onclick="login(window.location.protocol + '//' + window.location.host + '/login',document.getElementById('login-name').value);" >Login</button>
                 </div>
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary" type="button" onclick="logOut();" >Logout</button>
