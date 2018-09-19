@@ -120,6 +120,7 @@ You will need the following things properly installed on your computer.
   * On Android & iOS mobile devices the login will not work, no error is thrown but the page will not show a user logged in
   * After login a page refresh is required to update the UI, the refresh triggers the getCookieName function which updates the UI
   * The login route has response headers set to response.headers['Access-Control-Allow-Origin'] = * to circumvent the browser COR security check
+  * Logging in during a game will cause the total score for the user not to be equal to sum total of individual song scores because the song score is only recorded when the video has completed playing
   * The API call to musixmatch fails/timesout causing the error 504 page to be shown which will fail the test suite as well.
   * The video may not load so the page is rendered but the video iframe has a failed error message
   * PouchDB is not encrypted so will be accessable to all in the browser
