@@ -21,6 +21,9 @@ pre_canned_videoId = ['YQHsXMglC9A', '0-EF60neguk', 'MN3x-kAbgFU'
 
 @app.route('/')
 def index():
+    '''
+    Home page and the page to play the game
+    '''
 
     # see README.md for google API code which would be used instead of below
     # in production version
@@ -44,8 +47,13 @@ def index():
     except Exception as e:
         return render_template("504.html", error = str(e))
 
+
 @app.route('/evaluate_answer', methods=['POST'])
 def evaluate_answer():
+    '''
+    Score the answer string of the user playing end point
+    '''
+
     if request.method == "POST":
         # load JSON data from request
         data = json.loads(request.data)
@@ -65,6 +73,10 @@ def evaluate_answer():
 
 @app.route('/update_score', methods=['POST'])
 def update_score():
+    '''
+    Update the total score of the current logged in player end point
+    '''
+
     if request.method == "POST":
         # load JSON data from request
         data = json.loads(request.data)
@@ -81,8 +93,13 @@ def update_score():
         )
         return response
 
+
 @app.route('/song_score', methods=['POST'])
 def song_total_score():
+    '''
+    Save total song score end point
+    '''
+
     if request.method == "POST":
         # load JSON data from request
         data = json.loads(request.data)
@@ -99,10 +116,13 @@ def song_total_score():
 
 @app.route('/login', methods=['POST'])
 def login():
+    '''
+    Login end point
+    '''
+
     if request.method == "POST":
         # load JSON data from request
         data = json.loads(request.data)
-
 
         # search for user's player record, returning a single line '0' switch
         player_record = file_operations.search_from_file('data/players.txt'
@@ -138,6 +158,9 @@ def login():
 
 @app.route('/all_players')
 def all_players():
+    '''
+    Show all current logged in players with their scores by song
+    '''
 
     template_users_history = game_operations.generate_logged_in_leaderboard(0)
 
@@ -147,6 +170,9 @@ def all_players():
 
 @app.route('/leaderboard')
 def leaderboard():
+    '''
+    Show all player scores by song
+    '''
 
     # generate_leaderboard with '0' option provides full results
     # generate_leaderboard with a interger greater than zero returns that
@@ -158,10 +184,16 @@ def leaderboard():
     return render_template("leaderboard.html"
                             , users_history=template_users_history)
 
+
 @app.errorhandler(Exception)
 def unhandled_exception(e):
+    '''
+    Renders custom error page for all errors caused by network connection or code errors
+    '''
+
     app.logger.error('Unhandled Exception: %s', (e))
     return render_template('404.html'), 404
 
+
 if __name__ == '__main__':
-    app.run(host=os.environ.get('IP'), debug=True)
+    app.run(host=os.environ.get('IP'), debug=False)
