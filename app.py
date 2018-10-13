@@ -9,7 +9,8 @@ import game_operations
 from random import randint, random
 
 app = Flask(__name__)
-app.secret_key = 'aEP#gtR}isb2vG*={o-ui_WR6X9*<72NCe8CN7Ej6fMAyIOIlr'
+app.secret_key = os.environ.get('SECRET_KEY')
+
 
 # list of video ids that have lyrics provided by musixmatch
 pre_canned_videoId = [
@@ -182,4 +183,4 @@ def unhandled_exception(e):
 
 
 if __name__ == '__main__':
-    app.run(host=os.environ.get('IP'), debug=True)
+    app.run(host=os.environ.get('IP'), debug=False)

@@ -19,6 +19,7 @@ You will need the following things properly installed on your computer.
 ## Installation
 
 * ```pip3 install -r /path/to/requirements.txt```
+* ```export SECRET_KEY=< add complex string>```
 
 ### Running Tests
 
