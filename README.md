@@ -10,15 +10,40 @@ To login enter a username in the nav bar input box and your song scores and tota
 
 You will need the following things properly installed on your computer.
 
-* [Git](https://git-scm.com/)
-* [Python3](https://www.python.org/) (with HomeBrew & Venv)
-* [Google Chrome](https://google.com/chrome/)
+* [Python3](https://www.python.org/)
+
+## Wireframes
+
+* [Pencil](http://pencil.evolus.vn) (wireframes/guess_the_next_line_0-0.epgz wireframes/index.html)
 
 ## Installation
 
-* ```git clone git@github.com:ramblingbarney/refactored-invention.git```
-* ```cd refactored-invention```
 * ```pip3 install -r /path/to/requirements.txt```
+* ```export SECRET_KEY=< add complex string>```
+
+## Deployment
+The 'development' and 'testing' of the app have been done on the 'master' branch.
+
+The deployed version (master_heroku) on heroku has the following differences from the 'master' branch
+
+### Additional modules
+
+* 'from flask_cors import CORS, cross_origin'
+
+### Setup
+
+* app.config['CORS_HEADERS'] = 'Content-Type'
+* cors = CORS(app, resources={r"/\*": {"origins": "guess-the-next-line.herokuapp.com"}})
+
+### Heroku configuration variables
+
+* SECRET_KEY
+
+### Heroku config files
+
+* runtime.txt
+* Procfile
+* requirements.txt
 
 ### Running Tests
 
@@ -35,7 +60,7 @@ You will need the following things properly installed on your computer.
 
 * As a user I want to see the top 4 players with scores from left to right using a different colour.
 
-  * Example acceptance criteria:
+  * Acceptance criteria:
     *  Each player that has created a login will be shown
     *  Each player that has completed a song with a sore will have it listed below their name when you click 'View Scores'
 
@@ -43,7 +68,7 @@ You will need the following things properly installed on your computer.
 
 * As a user I want to see navigation icons in the menu bar on the home page.
 
-  * Example acceptance criteria:
+  * Acceptance criteria:
     * 'Home' link on the 'Home' page
     * 'Leaderboard' link on the 'Home' page
     * 'Who's Playing' link on the 'Home' page
@@ -51,39 +76,39 @@ You will need the following things properly installed on your computer.
     * Clicking 'Who's Playing' link take you to the 'Who's Playing' page.
 
 * As a user I want to click on the video iframe and the video to start Playing
-  * Example acceptance criteria:
+  * Acceptance criteria:
     * Video Plays
     * At timed intervals the lyrics are shown in blue text
     * The answers are scored and the points awarded are shown below the answer.
 
 * As a user I want to see a warning message on the page if cookies are disabled in the browser
-  * Example acceptance criteria:
+  * Acceptance criteria:
     * Warning message is shown asking user to enable cookies
 
 * As a user I want to see a list of all players with scores from left to right using a different colour.
-  * Example acceptance criteria:
+  * Acceptance criteria:
     *  Each player that has created a login will be shown
     *  Each player that has completed a song with a sore will have it listed below their name when you click 'View Scores'
 
 ### Leaderboard Page User Stories
 
 * As a user I want to see a list of all players with scores from left to right using a different colour.
-  * Example acceptance criteria:
+  * Acceptance criteria:
     *  Each player that has created a login will be shown
     *  Each player that has completed a song with a sore will have it listed below their name when you click 'View Scores'
 
 * As a user I want to see a warning message on the page if cookies are disabled in the browser
-  * Example acceptance criteria:
+  * Acceptance criteria:
     * Warning message is shown asking user to enable cookies
 
 ### All Players User Stories
 
 * As a user I want to see a warning message on the page if cookies are disabled in the browser
-  * Example acceptance criteria:
+  * Acceptance criteria:
     * Warning message is shown asking user to enable cookies
 
 * As a user I want to see a list of all players with scores from left to right using a different colour who are currently logged in.
-  * Example acceptance criteria:
+  * Acceptance criteria:
     *  Each player that is logged in will be shown
     *  Each player that has completed a song with a sore will have it listed below their name when you click 'View Scores'
 
@@ -115,17 +140,18 @@ You will need the following things properly installed on your computer.
 
 ## Known Issues
 
-* On small screens the login/logout text box will reduce in width so the text cannot been seen and the logout button can be forced to the next line in some instances.
-* When the login input box is empty clicking login will log in the last user
-* On Android & iOS mobile devices the login will not work, no error is thrown but the page will not show a user logged in
-* After login a page refresh is required to update the UI, the refresh triggers the getCookieName function which updates the UI
-* The login route has response headers set to response.headers['Access-Control-Allow-Origin'] = * to circumvent the browser COR security check
-* The API call to musixmatch fails/timesout causing the error 504 page to be shown which will fail the test suite as well.
-* The video may not load so the page is rendered but the video iframe has a failed error message
-* PouchDB is not encrypted so will be accessable to all in the browser
-* Flask passes variable data to the template which is displayed in page source
-* Clicking play on the video will play in full screen on iphone mobile browser with prevents the user entering the answers
-* The game will not evaluate answers on Android 8 devices using the chrome browser, the game will operate as expected on Android 7 devices using the chrome browser
+  * On small screens the login/logout text box will reduce in width so the text cannot been seen and the logout button can be forced to the next line in some instances.
+  * When the login input box is empty clicking login will log in the last user
+  * On Android & iOS mobile devices the login will not work, no error is thrown but the page will not show a user logged in
+  * After login a page refresh is required to update the UI, the refresh triggers the getCookieName function which updates the UI
+  * The login route has response headers set to response.headers['Access-Control-Allow-Origin'] = * to circumvent the browser COR security check
+  * Logging in during a game will cause the total score for the user not to be equal to sum total of individual song scores because the song score is only recorded when the video has completed playing
+  * The API call to musixmatch fails/timesout causing the error 504 page to be shown which will fail the test suite as well.
+  * The video may not load so the page is rendered but the video iframe has a failed error message
+  * PouchDB is not encrypted so will be accessable to all in the browser
+  * Flask passes variable data to the template which is displayed in page source
+  * Clicking play on the video will play in full screen on iphone mobile browser with prevents the user entering the answers
+  * The game will not evaluate answers on Android 8 devices using the chrome browser, the game will operate as expected on Android 7 devices using the chrome browser
 
 
 ## Code removed for existing version
