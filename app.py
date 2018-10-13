@@ -9,7 +9,7 @@ import game_operations
 from random import randint, random
 
 app = Flask(__name__)
-app.secret_key = os.environ.get('SECRET_KEY')
+app.secret_key = os.environ['SECRET_KEY']
 
 
 # list of video ids that have lyrics provided by musixmatch
