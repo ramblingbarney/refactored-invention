@@ -4,11 +4,12 @@ from random import randint, random
 import json
 
 # List of videos which lyrics are provided by MusixMatch
-pre_canned_videoId = ['YQHsXMglC9A', '0-EF60neguk', 'MN3x-kAbgFU'
-                    , 'YR5ApYxkU-U', 'n4RjJKxsamQ', 'raNGeq3_DtM'
-                    , 'TvnYmWpD_T8', 'x5GuBa4Bbnw', '4YR_Mft7yIM'
-                    , 'JJAXwAaA2w', 'u1xrNaTO1bI', 'jhdFe3evXpk'
-                    , 'YQHsXMglC9A']
+pre_canned_videoId = [
+    'YQHsXMglC9A', '0-EF60neguk', 'MN3x-kAbgFU',
+    'YR5ApYxkU-U', 'n4RjJKxsamQ', 'raNGeq3_DtM',
+    'TvnYmWpD_T8', 'x5GuBa4Bbnw', '4YR_Mft7yIM',
+    'JJAXwAaA2w', 'u1xrNaTO1bI', 'jhdFe3evXpk',
+    'YQHsXMglC9A']
 
 
 class TestMusic(unittest.TestCase):
@@ -91,7 +92,7 @@ class TestMusic(unittest.TestCase):
         def is_lyric_sequence():
             for i in lyric[1]:
 
-                if ( len(i['lyric']) >= 2 & isinstance(i['lyric'], str) ):
+                if (len(i['lyric']) >= 2 & isinstance(i['lyric'], str)):
                     True
                 else:
                     return False

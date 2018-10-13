@@ -10,14 +10,14 @@ To login enter a username in the nav bar input box and your song scores and tota
 
 You will need the following things properly installed on your computer.
 
-* [Git](https://git-scm.com/)
-* [Python3](https://www.python.org/) (with HomeBrew & Venv)
-* [Google Chrome](https://google.com/chrome/)
+* [Python3](https://www.python.org/)
+
+## Wireframes
+
+* [Pencil](http://pencil.evolus.vn) (wireframes/guess_the_next_line_0-0.epgz wireframes/index.html)
 
 ## Installation
 
-* ```git clone git@github.com:ramblingbarney/refactored-invention.git```
-* ```cd refactored-invention```
 * ```pip3 install -r /path/to/requirements.txt```
 
 ### Running Tests
@@ -35,7 +35,7 @@ You will need the following things properly installed on your computer.
 
 * As a user I want to see the top 4 players with scores from left to right using a different colour.
 
-  * Example acceptance criteria:
+  * Acceptance criteria:
     *  Each player that has created a login will be shown
     *  Each player that has completed a song with a sore will have it listed below their name when you click 'View Scores'
 
@@ -43,7 +43,7 @@ You will need the following things properly installed on your computer.
 
 * As a user I want to see navigation icons in the menu bar on the home page.
 
-  * Example acceptance criteria:
+  * Acceptance criteria:
     * 'Home' link on the 'Home' page
     * 'Leaderboard' link on the 'Home' page
     * 'Who's Playing' link on the 'Home' page
@@ -51,39 +51,39 @@ You will need the following things properly installed on your computer.
     * Clicking 'Who's Playing' link take you to the 'Who's Playing' page.
 
 * As a user I want to click on the video iframe and the video to start Playing
-  * Example acceptance criteria:
+  * Acceptance criteria:
     * Video Plays
     * At timed intervals the lyrics are shown in blue text
     * The answers are scored and the points awarded are shown below the answer.
 
 * As a user I want to see a warning message on the page if cookies are disabled in the browser
-  * Example acceptance criteria:
+  * Acceptance criteria:
     * Warning message is shown asking user to enable cookies
 
 * As a user I want to see a list of all players with scores from left to right using a different colour.
-  * Example acceptance criteria:
+  * Acceptance criteria:
     *  Each player that has created a login will be shown
     *  Each player that has completed a song with a sore will have it listed below their name when you click 'View Scores'
 
 ### Leaderboard Page User Stories
 
 * As a user I want to see a list of all players with scores from left to right using a different colour.
-  * Example acceptance criteria:
+  * Acceptance criteria:
     *  Each player that has created a login will be shown
     *  Each player that has completed a song with a sore will have it listed below their name when you click 'View Scores'
 
 * As a user I want to see a warning message on the page if cookies are disabled in the browser
-  * Example acceptance criteria:
+  * Acceptance criteria:
     * Warning message is shown asking user to enable cookies
 
 ### All Players User Stories
 
 * As a user I want to see a warning message on the page if cookies are disabled in the browser
-  * Example acceptance criteria:
+  * Acceptance criteria:
     * Warning message is shown asking user to enable cookies
 
 * As a user I want to see a list of all players with scores from left to right using a different colour who are currently logged in.
-  * Example acceptance criteria:
+  * Acceptance criteria:
     *  Each player that is logged in will be shown
     *  Each player that has completed a song with a sore will have it listed below their name when you click 'View Scores'
 

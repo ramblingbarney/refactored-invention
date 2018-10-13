@@ -8,14 +8,15 @@ class SEARCH_TYPE(enum.Enum):
 
 
 def search_from_file(filename, search_term, search_type):
-    '''Handle the process of searching for data in a file'''
+    ''' Handle the process of searching for data in a file '''
+
     with open(filename, "r") as searchfile:
         # returns full line of first instance of search term
-        if ( search_type == SEARCH_TYPE.LINEAR.value ):
+        if (search_type == SEARCH_TYPE.LINEAR.value):
             for line in searchfile:
                 if search_term in line:
                     return line.rstrip()
-        elif ( search_type == SEARCH_TYPE.PARALLEL.value ):
+        elif (search_type == SEARCH_TYPE.PARALLEL.value):
             # returns dictionary of all lines of search term
             file_lines = {}
             for num, line in enumerate(searchfile, 0):
@@ -26,6 +27,7 @@ def search_from_file(filename, search_term, search_type):
 
 def read_from_file(filename):
     '''Handle the process of reading data from a file'''
+
     file_lines = dict()
     with open(filename, "r") as readfile:
         for num, line in enumerate(readfile, 0):
@@ -39,10 +41,8 @@ def update_file(filename, update_term, write_value):
     data = update_term + "," + write_value
 
     with open(filename + ".tmp", "w") as outFile:
-
         with open(filename, "r") as inputfile:
             for line in inputfile:
-
                 if update_term in line:
                     outFile.writelines("{}\n".format(data.rstrip()))
                 else:
@@ -52,5 +52,6 @@ def update_file(filename, update_term, write_value):
 
 def write_to_file(filename, data):
     '''Handle the process of writing data to a file'''
+
     with open(filename, "a") as file:
         file.writelines("{}\n".format(data))

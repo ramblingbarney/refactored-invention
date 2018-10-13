@@ -11,11 +11,24 @@ class FlaskGameUITests(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        pass
+        with open("data/song_scores.txt", "w+") as text_file:
+            print(f"conor,Placebo - Running Up That Hill,65", file=text_file)
+            print(f"conor,Sinéad O'Connor - Nothing Compares 2U [Official Music Video],35", file=text_file)
+            print(f"logan,Placebo - Running Up That Hill,95", file=text_file)
+            print(f"logan,Sinéad O'Connor - Nothing Compares 2U [Official Music Video],35", file=text_file)
+
+        with open("data/players.txt", "w+") as text_file:
+            print(f"Tom,0,1", file=text_file)
+            print(f"conor,100,0", file=text_file)
+            print(f"logan,130,0", file=text_file)
 
     @classmethod
     def tearDownClass(cls):
-        pass
+        with open("data/song_scores.txt", "w+") as text_file:
+            print(f"", file=text_file)
+
+        with open("data/players.txt", "w+") as text_file:
+            print(f"", file=text_file)
 
     def setUp(self):
         self.elements = []
@@ -25,9 +38,9 @@ class FlaskGameUITests(unittest.TestCase):
         self.app.testing = True
         # create selenium phantomjs instance
         self.driver = webdriver.PhantomJS(
-        executable_path='/usr/local/bin/phantomjs'
-        , port=9134, service_args=['--ignore-ssl-errors=true'
-        , '--ssl-protocol=tlsv1'])
+            executable_path='/usr/local/bin/phantomjs',
+            port=9134,
+            service_args=['--ignore-ssl-errors=true', '--ssl-protocol=tlsv1'])
         # set the browner window size
         self.driver.set_window_size(1079, 668)
 
@@ -63,8 +76,8 @@ class FlaskGameUITests(unittest.TestCase):
         self.driver.get("http://localhost:5000")
         time.sleep(3)
         soup = BeautifulSoup(self.driver.page_source, 'html5lib')
-        for line in soup.find('div', {'id':'navbarResponsive'}).find_all('a',
-            {'class': 'nav-link'}):
+        for line in soup.find('div', {'id': 'navbarResponsive'}).find_all(
+                'a', {'class': 'nav-link'}):
             self.elements.append(line.contents[0])
         self.assertIn('Home', self.elements)
         self.assertIn('Leaderboard', self.elements)
@@ -90,7 +103,7 @@ class FlaskGameUITests(unittest.TestCase):
         self.driver.get("http://localhost:5000/leaderboard")
         time.sleep(3)
         soup = BeautifulSoup(self.driver.page_source, 'html5lib')
-        for line in soup.find_all('div', {'class':'leaderboard-name'}):
+        for line in soup.find_all('div', {'class': 'leaderboard-name'}):
             self.elements.append(line.contents[0])
 
         self.assertListEqual(file_results_names, self.elements)
@@ -110,8 +123,8 @@ class FlaskGameUITests(unittest.TestCase):
         time.sleep(3)
         soup = BeautifulSoup(self.driver.page_source, 'html5lib')
         for line in soup.find(
-            'div', {'id':'individual-song-scores2'}).find_all('li'):
-            self.elements.append(line.contents[0].strip())
+                'div', {'id': 'individual-song-scores2'}).find_all('li'):
+                self.elements.append(line.contents[0].strip())
         self.assertListEqual(individual_songs[1][1], self.elements)
 
     def test_index_players_names(self):
@@ -126,7 +139,7 @@ class FlaskGameUITests(unittest.TestCase):
         self.driver.get("http://localhost:5000/")
         time.sleep(3)
         soup = BeautifulSoup(self.driver.page_source, 'html5lib')
-        for line in soup.find_all('div', {'class':'leaderboard-name'}):
+        for line in soup.find_all('div', {'class': 'leaderboard-name'}):
             self.elements.append(line.contents[0])
 
         self.assertListEqual(file_results_names, self.elements)
@@ -148,7 +161,7 @@ class FlaskGameUITests(unittest.TestCase):
         soup = BeautifulSoup(self.driver.page_source, 'html5lib')
 
         for line in soup.find(
-            'div', {'id':'individual-song-scores2'}).find_all('li'):
+                'div', {'id': 'individual-song-scores2'}).find_all('li'):
             self.elements.append(line.contents[0].strip())
 
         self.assertListEqual(individual_songs[1][1], self.elements)
@@ -165,7 +178,7 @@ class FlaskGameUITests(unittest.TestCase):
         self.driver.get("http://localhost:5000/all_players")
         time.sleep(3)
         soup = BeautifulSoup(self.driver.page_source, 'html5lib')
-        for line in soup.find_all('div', {'class':'leaderboard-name'}):
+        for line in soup.find_all('div', {'class': 'leaderboard-name'}):
             self.elements.append(line.contents[0])
 
         self.assertListEqual(file_results_names, self.elements)
